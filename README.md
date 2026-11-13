@@ -2,7 +2,7 @@
 
 [![TecNM](https://img.shields.io/badge/TecNM-Instituto%20Tecnol%C3%B3gico%20Superior%20de%20Monclova-blue.svg)](https://www.tecnm.mx)
 [![Carrera](https://img.shields.io/badge/Carrera-Ingenier%C3%ADa%20Inform%C3%A1tica-green.svg)](#)
-[![Semestre](https://img.shields.io/badge/Semestre-Quinto)](#)
+[![Semestre](https://img.shields.io/badge/Semestre-Quinto%20%2F%20Sexto-orange.svg)](#)
 
 Repositorio institucional del **Proyecto Integrador Terminal de Semestre** para la carrera de **Ingeniería Informática** del **Instituto Tecnológico Superior de Monclova (TecNM)**.
 
@@ -55,7 +55,7 @@ flowchart TD
    * Matriz de deslinde y distribución equitativa de las **100 tablas** (50 Estudiante A / 50 Estudiante B).
    * Verificación de la proporción requerida por la rúbrica (< 25% catálogos simples y $\ge$ 75% tablas transaccionales/intermedias/maestras/bitácoras).
 2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):**
-   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1 Ingeniería de Requisitos.docx](./AMSI/1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx).
+   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1 Ingeniería de Requisitos.pdf](./AMSI/1.1%20Ingeniería%20de%20Requisitos.pdf).
    * Políticas de seguridad en tránsito (TLS 1.3), almacenamiento criptográfico (`bcrypt`/`Argon2`) y auditoría permanente (borrado lógico).
    * Modelado de Casos de Uso del negocio y caso obligatorio de **Login y Control de Sesión**.
    * Especificación de interacción criptográfica y arquitectura orientada a objetos en 3 capas.
@@ -79,7 +79,7 @@ Proyecto Integrador/
 │
 └── AMSI/                                                                   # FASE 2: Análisis y Modelado (IFE-1005)
     ├── README.md                                                           # Memoria técnica de la Fase 2 (Rúbrica AMSI)
-    └── 1.1 Ingeniería de Requisitos.docx                                    # Catálogo codificado de RF y RNF (18 submódulos)
+    └── 1.1 Ingeniería de Requisitos.pdf                                    # Catálogo codificado de RF y RNF (18 submódulos)
 ```
 
 ---
