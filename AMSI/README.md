@@ -17,7 +17,9 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ## 2. Estructura de Entregables según la Rúbrica Oficial
 
-### Criterio 1.1: Ingeniería de Requisitos (Ponderación: 20%)
+### Criterio 1.1: [Ingeniería de Requisitos](./1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx) (Ponderación: 20%)
+
+> 📄 **Documento de entrega:** [1.1 Ingeniería de Requisitos.docx](./1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx)
 
 * **Catálogo Formal y Codificado:** Requisitos Funcionales (`RF-A-xx` y `RF-B-xx`) y Requisitos No Funcionales (`RNF-A-xx` y `RNF-B-xx`), cubriendo los 18 submódulos del sistema con autoría explícita:
   * **Estudiante A:** Submódulos A1 a A9 (Seguridad, Control de Acceso, Privacidad/ARCO, Catálogo Bibliográfico y Biblioteca Personal).
@@ -76,7 +78,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ## 3. Estado de los Documentos de esta Carpeta
 
-* [1.1 Ingeniería de Requisitos.pdf]() Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría.
+* 📄 **[1.1 Ingeniería de Requisitos.docx](./1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría.
 * *(En desarrollo / Próximos entregables)*:
   * `2.2 Diagramas y Especificaciones de Casos de Uso.pdf`
   * `2.3 Diagrama de Secuencia de Login Criptográfico y Transacciones.pdf`

@@ -55,7 +55,7 @@ flowchart TD
    * Matriz de deslinde y distribución equitativa de las **100 tablas** (50 Estudiante A / 50 Estudiante B).
    * Verificación de la proporción requerida por la rúbrica (< 25% catálogos simples y $\ge$ 75% tablas transaccionales/intermedias/maestras/bitácoras).
 2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):**
-   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`).
+   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1 Ingeniería de Requisitos.docx](./AMSI/1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx).
    * Políticas de seguridad en tránsito (TLS 1.3), almacenamiento criptográfico (`bcrypt`/`Argon2`) y auditoría permanente (borrado lógico).
    * Modelado de Casos de Uso del negocio y caso obligatorio de **Login y Control de Sesión**.
    * Especificación de interacción criptográfica y arquitectura orientada a objetos en 3 capas.
