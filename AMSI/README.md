@@ -76,7 +76,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ## 3. Estado de los Documentos de esta Carpeta
 
-* [1.1 Ingeniería de Requisitos.docx](file:///c:/Users/Nat/OneDrive%20-%20Instituto%20Tecnol%C3%B3gico%20Superior%20de%20Monclova/Escritorio/Proyecto%20Integrador/AMSI/1.1%20Ingenier%C3%ADa%20de%20Requisitos.docx): Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría.
+* [1.1 Ingeniería de Requisitos.pdf]() Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría.
 * *(En desarrollo / Próximos entregables)*:
   * `2.2 Diagramas y Especificaciones de Casos de Uso.pdf`
   * `2.3 Diagrama de Secuencia de Login Criptográfico y Transacciones.pdf`
