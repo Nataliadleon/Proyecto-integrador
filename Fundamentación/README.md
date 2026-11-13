@@ -108,3 +108,4 @@ Conforme a la rúbrica oficial (Criterio 2.2 y 2.3 de FBD), el sistema divide su
 
 * [Lista_100_Tablas_y_Matriz_Deslinde.xlsx](file:///c:/Users/Nat/OneDrive%20-%20Instituto%20Tecnol%C3%B3gico%20Superior%20de%20Monclova/Escritorio/Proyecto%20Integrador/Fundamentaci%C3%B3n/Lista_100_Tablas_y_Matriz_Deslinde.xlsx): Matriz oficial con la distribución de los 18 submódulos, detalle de las 100 tablas, clasificación tipológica y verificación de reglas de deslinde.
 * [plantilla_diccionario_datos.xlsx](file:///c:/Users/Nat/OneDrive%20-%20Instituto%20Tecnol%C3%B3gico%20Superior%20de%20Monclova/Escritorio/Proyecto%20Integrador/Fundamentaci%C3%B3n/plantilla_diccionario_datos.xlsx): Plantilla técnica estandarizada para la documentación campo a campo de las 100 tablas (tipos de datos, longitudes, restricciones de integridad y descripción semántica).
+

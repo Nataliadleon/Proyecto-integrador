@@ -2,8 +2,7 @@
 
 [![TecNM](https://img.shields.io/badge/TecNM-Instituto%20Tecnol%C3%B3gico%20Superior%20de%20Monclova-blue.svg)](https://www.tecnm.mx)
 [![Carrera](https://img.shields.io/badge/Carrera-Ingenier%C3%ADa%20Inform%C3%A1tica-green.svg)](#)
-[![Semestre](https://img.shields.io/badge/Semestre-Quinto%20%2F%20Sexto-orange.svg)](#)
-[![Estado](https://img.shields.io/badge/Etapa-Fases%201%20y%202%20(En%20Desarrollo)-yellow.svg)](#)
+[![Semestre](https://img.shields.io/badge/Semestre-Quinto)](#)
 
 Repositorio institucional del **Proyecto Integrador Terminal de Semestre** para la carrera de **Ingeniería Informática** del **Instituto Tecnológico Superior de Monclova (TecNM)**.
 
@@ -92,3 +91,4 @@ Proyecto Integrador/
 * **Multi-SGBD:** Scripts ejecutables compatibles con **Microsoft SQL Server** y gestor libre (**PostgreSQL / MariaDB**).
 * **Infraestructura LAN:** Topología jerárquica de 3 capas, subnetting con VLSM y conmutadores con **Port Security** configurado.
 * **Marco Legal Vigente:** Cumplimiento con LFPDPPP, trámite INDAUTOR y matriz de prevención conforme al Código Penal Federal (Arts. 211 bis 1 al 7).
+

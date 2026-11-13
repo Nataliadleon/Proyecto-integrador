@@ -3,7 +3,7 @@
 > **Clave de la Asignatura:** IFE-1005  
 > **Competencia Específica:** Analiza y modela proyectos de sistemas de información aplicando el paradigma orientado a objetos.  
 > **Proyecto:** *Book Tracker* — Plataforma Integral de Gestión de Lectura y Hábitos  
-> **Capítulo en Memoria Técnica:** Capítulo II
+
 
 ---
 
@@ -82,3 +82,4 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
   * `2.3 Diagrama de Secuencia de Login Criptográfico y Transacciones.pdf`
   * `2.4 Diagrama General de Clases, Componentes y Despliegue.pdf`
   * `2.5 Prototipos de Interfaces y Mockups de Alta Fidelidad.pdf`
+
