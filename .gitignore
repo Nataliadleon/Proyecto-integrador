@@ -1,6 +1,7 @@
 # Office temporary files
 ~$*
 *.tmp
+*_Modificado.xlsx
 
 # OS generated files
 Thumbs.db

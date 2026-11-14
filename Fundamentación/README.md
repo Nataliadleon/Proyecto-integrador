@@ -73,8 +73,8 @@ Conforme a la rúbrica oficial (Criterio 2.2 y 2.3 de FBD), el sistema divide su
 | **A5. Preferencias, privacidad y ARCO** | 6 | `idioma`, `preferencia_usuario`, `version_aviso_privacidad`, `consentimiento_privacidad`, `tipo_solicitud_arco`, `solicitud_arco` | Gestionar consentimiento y solicitudes ARCO | `RF-A-21` a `26` |
 | **A6. Catálogo bibliográfico** | 11 | `autor`, `editorial`, `libro`, `tipo_colaborador`, `libro_autor`, `formato_libro`, `edicion`, `genero`, `libro_genero`, `serie_libro`, `libro_serie` | Consultar y registrar libro y edición | `RF-A-27` a `34` |
 | **A7. Biblioteca personal** | 8 | `estado_lectura`, `ejemplar_usuario`, `etiqueta`, `etiqueta_ejemplar`, `estante`, `estante_ejemplar`, `coleccion`, `coleccion_ejemplar` | Organizar biblioteca personal y estantes | `RF-A-35` a `40` |
-| **A8. Copias físicas, digitales y adquisiciones** | 7 | `copia_fisica`, `archivo_digital`, `contacto_prestamo`, `prestamo`, `wishlist_item`, `fuente_adquisicion`, `adquisicion` | Registrar compra, copias y lista de deseos | `RF-A-35` a `40` |
-| **A9. Importación de biblioteca** | 2 | `importacion_biblioteca`, `detalle_importacion` | Importar biblioteca desde archivo (CSV/Goodreads) | `RF-A-41` a `43` |
+| **A8. Copias, adquisiciones y wishlist** | 7 | `copia_fisica`, `archivo_digital`, `suscripcion_lectura`, `ubicacion_fisica`, `wishlist_item`, `fuente_adquisicion`, `adquisicion` | Registrar compra, copias, suscripciones y wishlist | `RF-A-35` a `38` |
+| **A9. Importación de biblioteca** | 2 | `importacion_biblioteca`, `detalle_importacion` | Importar biblioteca desde archivo (CSV/Goodreads) | `RF-A-39` a `41` |
 
 ### Detalle de Módulos y Entidades — Estudiante B (Lectura + Hábitos + Social)
 

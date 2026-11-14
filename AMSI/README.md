@@ -17,9 +17,9 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ## 2. Estructura de Entregables según la Rúbrica Oficial
 
-### Criterio 1.1: [Ingeniería de Requisitos](./1.1%20Ingeniería%20de%20Requisitos.pdf) (Ponderación: 20%)
+### Criterio 1.1: [Ingeniería de Requisitos](./1.1_Ingenieria_de_Requisitos.pdf) (Ponderación: 20%)
 
-> 📄 **Documento de entrega:** [1.1 Ingeniería de Requisitos.pdf](./1.1%20Ingeniería%20de%20Requisitos.pdf)
+> 📄 **Documento de entrega:** [1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf) | [(versión editable .docx)](./1.1_Ingenieria_de_Requisitos.docx)
 
 * **Catálogo Formal y Codificado:** Requisitos Funcionales (`RF-A-xx` y `RF-B-xx`) y Requisitos No Funcionales (`RNF-A-xx` y `RNF-B-xx`), cubriendo los 18 submódulos del sistema con autoría explícita:
   * **Estudiante A:** Submódulos A1 a A9 (Seguridad, Control de Acceso, Privacidad/ARCO, Catálogo Bibliográfico y Biblioteca Personal).
@@ -80,7 +80,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ## 3. Estado de los Documentos de esta Carpeta
 
-* 📄 **[1.1 Ingeniería de Requisitos.pdf](./1.1%20Ingeniería%20de%20Requisitos.pdf):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría.
+* 📄 **[1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría (incluye versión [.docx](./1.1_Ingenieria_de_Requisitos.docx)).
 * 📄 **[1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md):** Diagramas UML de Casos de Uso del negocio y del sistema (`include`, `extend`, generalización) y especificación formal detallada (precondiciones, poscondiciones, flujos alternos y de excepción), con desarrollo exhaustivo del caso de uso obligatorio de Autenticación de Usuario (Login).
 * *(En desarrollo / Próximos entregables)*:
   * `1.3 Diagramas de Secuencia Transaccionales y de Interacción Criptográfica.pdf`
