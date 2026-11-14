@@ -57,7 +57,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 * **Diagramas de Secuencia Transaccionales:**
   Diagramas de interacción para las 4 transacciones de mayor complejidad del negocio:
   * Registro de sesión de lectura con cronómetro y cálculo de páginas/minuto (Submódulo B1).
-  * Préstamo de ejemplar físico con validación de disponibilidad y fecha límite (Submódulo A8).
+  * Registro de adquisición de ejemplar y validación de hash de archivo digital (Submódulo A8).
   * Ejercicio de derecho ARCO (Rectificación / Cancelación) con confirmación criptográfica (Submódulo A5).
   * Creación de reunión de club de lectura con notificación masiva a miembros (Submódulo B8).
 

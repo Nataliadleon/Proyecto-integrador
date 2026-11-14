@@ -11,7 +11,7 @@
 
 En la actualidad, los lectores enfrentan una notable dispersión de herramientas para gestionar sus hábitos de lectura, sus bibliotecas personales (físicas y digitales) y sus registros de progreso. Las soluciones comerciales existentes presentan limitaciones críticas:
 1. **Falta de soberanía y privacidad sobre los datos:** Plataformas propietarias comercializan los hábitos de lectura y carecen de mecanismos claros de ejercicio de derechos ARCO o cumplimiento estricto con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).
-2. **Desconexión entre la gestión bibliográfica y los hábitos cuantitativos:** Rara vez se integran en un mismo sistema el control físico/digital de ejemplares, préstamos a terceros, cronometraje de sesiones de lectura en tiempo real y analíticas de productividad lectora.
+2. **Desconexión entre la gestión bibliográfica y los hábitos cuantitativos:** Rara vez se integran en un mismo sistema el control físico/digital de ejemplares personales, compras y adquisiciones, cronometraje de sesiones de lectura en tiempo real y analíticas de productividad lectora.
 3. **Ausencia de infraestructura corporativa segura:** La mayoría de soluciones carecen de un modelo de datos transaccional normalizado, auditoría de eventos a bajo nivel y esquemas de seguridad multi-SGBD con cifrado robusto.
 
 **Book Tracker** surge como una solución tecnológica corporativa y segura orientada a resolver esta problemática mediante una arquitectura orientada a objetos, un esquema relacional normalizado en BCNF de alta escala (100 tablas) y una infraestructura de red jerárquica con respaldo legal integral.
@@ -21,7 +21,7 @@ En la actualidad, los lectores enfrentan una notable dispersión de herramientas
 ## 2. Justificación Técnica, Operativa y Económica
 
 * **Justificación Técnica:** El proyecto integra un modelo de datos robusto sin entidades huérfanas, preparado para operar en un entorno **Multi-SGBD** (Microsoft SQL Server y PostgreSQL / MariaDB). Incorpora algoritmos criptográficos robustos (bcrypt / Argon2) para proteger credenciales y datos sensibles, cumpliendo con los principios de seguridad de la información.
-* **Justificación Operativa:** Estandariza los flujos de trabajo de los lectores: catalogación bibliográfica, seguimiento de metas anuales y mensuales, control de préstamos, bitácoras de cambios y gamificación mediante logros y rachas.
+* **Justificación Operativa:** Estandariza los flujos de trabajo de los lectores: catalogación bibliográfica, seguimiento de metas anuales y mensuales, control de copias físicas y digitales, bitácoras de cambios y gamificación mediante logros y rachas.
 * **Justificación Económica:** Ofrece una alternativa eficiente basada en estándares abiertos y arquitectura en capas que reduce costos de licenciamiento, optimizando recursos de hardware y almacenamiento en el centro de datos.
 
 ---
@@ -57,7 +57,7 @@ Conforme a la rúbrica oficial (Criterio 2.2 y 2.3 de FBD), el sistema divide su
    │ A5: Privacidad, preferencias/ARCO(6)│         │ B5: Recordatorios y notificacion.(5)│
    │ A6: Catálogo bibliográfico     (11) │         │ B6: Logros y niveles             (4)│
    │ A7: Biblioteca personal         (8) │         │ B7: Estadísticas y reportes      (3)│
-   │ A8: Copias, compras y préstamos (7) │         │ B8: Clubes de lectura y social  (11)│
+   │ A8: Copias y adquisiciones      (7) │         │ B8: Clubes de lectura y social  (11)│
    │ A9: Importación de biblioteca   (2) │         │ B9: Auditoría, sincroniz./export.(4)│
    └─────────────────────────────────────┘         └─────────────────────────────────────┘
 ```
@@ -73,8 +73,8 @@ Conforme a la rúbrica oficial (Criterio 2.2 y 2.3 de FBD), el sistema divide su
 | **A5. Preferencias, privacidad y ARCO** | 6 | `idioma`, `preferencia_usuario`, `version_aviso_privacidad`, `consentimiento_privacidad`, `tipo_solicitud_arco`, `solicitud_arco` | Gestionar consentimiento y solicitudes ARCO | `RF-A-21` a `26` |
 | **A6. Catálogo bibliográfico** | 11 | `autor`, `editorial`, `libro`, `tipo_colaborador`, `libro_autor`, `formato_libro`, `edicion`, `genero`, `libro_genero`, `serie_libro`, `libro_serie` | Consultar y registrar libro y edición | `RF-A-27` a `34` |
 | **A7. Biblioteca personal** | 8 | `estado_lectura`, `ejemplar_usuario`, `etiqueta`, `etiqueta_ejemplar`, `estante`, `estante_ejemplar`, `coleccion`, `coleccion_ejemplar` | Organizar biblioteca personal y estantes | `RF-A-35` a `40` |
-| **A8. Copias, adquisiciones y préstamos** | 7 | `copia_fisica`, `archivo_digital`, `contacto_prestamo`, `prestamo`, `wishlist_item`, `fuente_adquisicion`, `adquisicion` | Registrar compra, copia y préstamo | `RF-A-41` a `46` |
-| **A9. Importación de biblioteca** | 2 | `importacion_biblioteca`, `detalle_importacion` | Importar biblioteca desde archivo (CSV/Goodreads) | `RF-A-47` a `50` |
+| **A8. Copias físicas, digitales y adquisiciones** | 7 | `copia_fisica`, `archivo_digital`, `contacto_prestamo`, `prestamo`, `wishlist_item`, `fuente_adquisicion`, `adquisicion` | Registrar compra, copias y lista de deseos | `RF-A-35` a `40` |
+| **A9. Importación de biblioteca** | 2 | `importacion_biblioteca`, `detalle_importacion` | Importar biblioteca desde archivo (CSV/Goodreads) | `RF-A-41` a `43` |
 
 ### Detalle de Módulos y Entidades — Estudiante B (Lectura + Hábitos + Social)
 

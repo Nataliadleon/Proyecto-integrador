@@ -31,7 +31,7 @@ Conforme a los criterios de acreditación del TecNM, cada integrante asume la au
 
 | Integrante / Rol | Submódulos Responsables | No. Tablas | Enfoque Principal |
 | :--- | :--- | :---: | :--- |
-| **Estudiante A** | **A1 a A9:** Cuentas y credenciales, Roles y permisos, Sesiones y auditoría de acceso, Segundo factor (2FA) y dispositivos, Privacidad y ARCO, Catálogo bibliográfico, Biblioteca personal, Adquisiciones y préstamos, Importación de biblioteca. | **50** | **Seguridad, Control de Acceso y Biblioteca** |
+| **Estudiante A** | **A1 a A9:** Cuentas y credenciales, Roles y permisos, Sesiones y auditoría de acceso, Segundo factor (2FA) y dispositivos, Privacidad y ARCO, Catálogo bibliográfico, Biblioteca personal, Copias y adquisiciones, Importación de biblioteca. | **50** | **Seguridad, Control de Acceso y Biblioteca** |
 | **Estudiante B** | **B1 a B9:** Sesiones de lectura con cronómetro, Notas y citas, Reseñas y calificaciones, Metas y hábitos, Recordatorios y notificaciones, Logros y niveles, Estadísticas y reportes, Clubes de lectura y social, Auditoría, sincronización y portabilidad. | **50** | **Lectura, Hábitos, Gamificación y Social** |
 
 ---
