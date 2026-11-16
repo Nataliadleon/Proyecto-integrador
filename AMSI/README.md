@@ -34,7 +34,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ### Criterio 1.2: [Modelado del Negocio y Casos de Uso](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) (Ponderación: 25%)
 
-> 📄 **Documento de entrega:** [1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md)
+> 📄 **Documento de entrega:** [1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) | [(versión editable .docx)](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)
 
 * **Diagramas UML de Casos de Uso:**
   * Diagrama general del sistema y diagramas por submódulo.
@@ -81,7 +81,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 ## 3. Estado de los Documentos de esta Carpeta
 
 * 📄 **[1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría (incluye versión [.docx](./1.1_Ingenieria_de_Requisitos.docx)).
-* 📄 **[1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md):** Diagramas UML de Casos de Uso del negocio y del sistema (`include`, `extend`, generalización) y especificación formal detallada (precondiciones, poscondiciones, flujos alternos y de excepción), con desarrollo exhaustivo del caso de uso obligatorio de Autenticación de Usuario (Login).
+* 📄 **[1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md):** Diagramas UML de Casos de Uso del negocio y del sistema (`include`, `extend`, generalización) y especificación formal detallada (precondiciones, poscondiciones, flujos alternos y de excepción), con desarrollo exhaustivo del caso de uso obligatorio de Autenticación de Usuario (Login) (incluye versión [.docx](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)).
 * *(En desarrollo / Próximos entregables)*:
   * `1.3 Diagramas de Secuencia Transaccionales y de Interacción Criptográfica.pdf`
   * `1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf`

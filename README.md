@@ -56,7 +56,7 @@ flowchart TD
    * Verificación de la proporción requerida por la rúbrica (< 25% catálogos simples y $\ge$ 75% tablas transaccionales/intermedias/maestras/bitácoras).
 2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):**
    * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1_Ingenieria_de_Requisitos.pdf](./AMSI/1.1_Ingenieria_de_Requisitos.pdf) (y su versión editable [.docx](./AMSI/1.1_Ingenieria_de_Requisitos.docx)).
-   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.md](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md).
+   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.md](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) (y su versión editable [.docx](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)).
    * Políticas de seguridad en tránsito (TLS 1.3), almacenamiento criptográfico (`bcrypt`/`Argon2`) y auditoría permanente (borrado lógico).
    * Especificación de interacción criptográfica y arquitectura orientada a objetos en 3 capas.
 
@@ -81,7 +81,8 @@ Proyecto Integrador/
     ├── README.md                                                           # Memoria técnica de la Fase 2 (Rúbrica AMSI)
     ├── 1.1_Ingenieria_de_Requisitos.pdf                                    # Catálogo codificado de RF y RNF (18 submódulos)
     ├── 1.1_Ingenieria_de_Requisitos.docx                                   # Versión editable de Requisitos
-    └── 1.2 Modelado del Negocio y Casos de Uso.md                          # Diagramas UML y especificación tabular (Login)
+    ├── 1.2 Modelado del Negocio y Casos de Uso.md                          # Diagramas UML y especificación tabular (Login)
+    └── 1.2 Modelado del Negocio y Casos de Uso.docx                        # Versión editable de Casos de Uso
 ```
 
 ---
