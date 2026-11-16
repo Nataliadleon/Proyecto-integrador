@@ -46,20 +46,23 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 ---
 
-### Criterio 1.3: Modelado de Interacción y Secuencia Criptográfica (Ponderación: 25%)
+### Criterio 1.3: [Modelado de Interacción y Secuencia Criptográfica](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md) (Ponderación: 25%)
+
+> 📄 **Documento de entrega:** [1.3 Modelado de Interacción y Secuencia Criptográfica.md](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md) | [(versión editable .docx)](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.docx)
 
 * **Diagrama de Secuencia del Proceso de Autenticación Segura (Login):**
   Modela el ciclo de vida e intercambio sincrónico y asincrónico entre cuatro capas bien delimitadas:
-  1. **Capa de Presentación (Vista / UI):** Captura de credenciales y envío seguro por HTTPS/TLS.
-  2. **Capa de Control (Controlador de Seguridad / AuthController):** Orquestación de la petición, verificación de directivas de bloqueo y llamada al servicio criptográfico.
-  3. **Capa de Servicios Criptográficos (CryptoService):** Verificación de salting y función de derivación hash (`bcrypt.verify` / `Argon2`).
-  4. **Capa de Persistencia (Repositorio de Datos / UserRepository):** Consulta del usuario activo, recuperación del hash y registro inmediato en `bitacora_acceso` y `sesion_usuario`.
-* **Diagramas de Secuencia Transaccionales:**
-  Diagramas de interacción para las 4 transacciones de mayor complejidad del negocio:
-  * Registro de sesión de lectura con cronómetro y cálculo de páginas/minuto (Submódulo B1).
-  * Registro de adquisición de ejemplar y validación de hash de archivo digital (Submódulo A8).
-  * Ejercicio de derecho ARCO (Rectificación / Cancelación) con confirmación criptográfica (Submódulo A5).
-  * Creación de reunión de club de lectura con notificación masiva a miembros (Submódulo B8).
+  1. **Capa de Presentación (Vista / UI):** Captura de credenciales y envío seguro por HTTPS/TLS 1.3.
+  2. **Capa de Control (SecurityController):** Orquestación de la petición, rate limiting por IP, verificación de directivas de bloqueo y llamada al servicio criptográfico.
+  3. **Capa de Servicios Criptográficos (CryptoService):** Verificación de salting y función de derivación hash (`Argon2id` / `bcrypt` costo $\ge 12$), descifrado AES-256 de secretos TOTP y generación CSPRNG de tokens.
+  4. **Capa de Persistencia (DatabaseRepository Multi-SGBD):** Consulta del usuario activo, recuperación del hash y registro transaccional inmutable en `bitacora_acceso` y `sesion_usuario`.
+* **Diagramas de Secuencia Transaccionales (Deslinde 50/50):**
+  * **Estudiante A (Biblioteca y Catálogo):**
+    * Catalogación de obra y edición con validación matemática de ISBN (Módulo 10 y Módulo 11) y persistencia ACID multi-tabla (`libro`, `edicion`, `libro_autor`, `libro_genero`).
+    * Adquisición de ejemplar personal, asignación de estantería física del hogar y validación criptográfica de integridad de archivos digitales (ePub/PDF con hash SHA-256).
+  * **Estudiante B (Hábitos y Comunidad):**
+    * Registro de sesión de lectura activa con cronómetro en vivo, registro de pausas, cálculo de páginas por minuto (PPM) y actualización de racha continua y metas.
+    * Convocatoria de reunión de debate de club de lectura con despacho masivo asíncrono de alertas y correos SMTP.
 
 ---
 
@@ -82,7 +85,7 @@ Todos los entregables de esta etapa están diseñados para alcanzar el nivel **E
 
 * 📄 **[1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría (incluye versión [.docx](./1.1_Ingenieria_de_Requisitos.docx)).
 * 📄 **[1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md):** Diagramas UML de Casos de Uso del negocio y del sistema (`include`, `extend`, generalización) y especificación formal detallada (precondiciones, poscondiciones, flujos alternos y de excepción), con desarrollo exhaustivo del caso de uso obligatorio de Autenticación de Usuario (Login) (incluye versión [.docx](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)).
-* *(En desarrollo / Próximos entregables)*:
-  * `1.3 Diagramas de Secuencia Transaccionales y de Interacción Criptográfica.pdf`
+* 📄 **[1.3 Modelado de Interacción y Secuencia Criptográfica.md](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md):** Diagrama de secuencia formal de Autenticación Segura (Login con 2FA TOTP y salting en 4 capas) y 4 diagramas de secuencias transaccionales críticas cubriendo ambos autores 50/50 (incluye versión [.docx](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.docx)).
+* *(En desarrollo / Próximo entregable final)*:
   * `1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf`
 
