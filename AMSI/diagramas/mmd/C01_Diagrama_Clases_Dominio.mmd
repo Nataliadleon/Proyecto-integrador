@@ -1,0 +1,179 @@
+classDiagram
+    direction TB
+    note "Todas las entidades extienden de EntidadBase con los 9 atributos obligatorios"
+
+    class EntidadBase {
+        <<abstract>>
+        +BigInt id
+        +String descripcion
+        +BigInt creado_por
+        +DateTime fecha_creacion
+        +BigInt modificado_por
+        +DateTime fecha_modificacion
+        +BigInt eliminado_por
+        +DateTime fecha_eliminacion
+        +String estatus
+        +desactivar(BigInt usuario_id) void
+        +reactivar(BigInt usuario_id) void
+    }
+
+    class Usuario {
+        +String nombre_usuario
+        +String correo
+        +Boolean correo_confirmado
+        +DateTime ultimo_acceso
+        +registrar() Boolean
+        +actualizarPerfil() Boolean
+        +solicitarBaja() void
+    }
+
+    class PerfilUsuario {
+        +String nombre
+        +String apellidos
+        +Date fecha_nacimiento
+        +String pais
+        +actualizarDatos() Boolean
+    }
+
+    class CredencialUsuario {
+        +String hash_contrasena
+        +String algoritmo_hash
+        +Int costo
+        +DateTime fecha_ultimo_cambio
+        +validarPassword(String candidata) Boolean
+        +cambiarPassword(String nuevoHash) Boolean
+    }
+
+    class Rol {
+        +String codigo_rol
+        +String nombre_rol
+        +asignarPermiso(Permiso p) void
+    }
+
+    class Permiso {
+        +String modulo
+        +String accion
+        +String codigo_permiso
+    }
+
+    class RolPermiso {
+        +BigInt rol_id
+        +BigInt permiso_id
+    }
+
+    class UsuarioRol {
+        +BigInt usuario_id
+        +BigInt rol_id
+        +DateTime fecha_asignacion
+        +DateTime fecha_expiracion
+        +esVigente() Boolean
+    }
+
+    class BitacoraAcceso {
+        +BigInt usuario_id
+        +DateTime fecha_hora
+        +String ip_origen
+        +String user_agent
+        +String tipo_evento
+        +String resultado
+        +registrarEvento() void
+    }
+
+    class SesionUsuario {
+        +String hash_token
+        +DateTime fecha_inicio
+        +DateTime fecha_expiracion
+        +String ip_origen
+        +validarToken() Boolean
+        +revocarSesion() void
+    }
+
+    class Metodo2FA {
+        +String tipo_metodo
+        +ByteArray secreto_cifrado
+        +Boolean confirmado
+        +verificarCodigoTOTP(String otp) Boolean
+    }
+
+    class Libro {
+        +String titulo
+        +Int ano_publicacion_original
+        +String sinopsis
+        +agregarEdicion(Edicion ed) void
+    }
+
+    class Edicion {
+        +String isbn
+        +Int paginas
+        +Int ano_edicion
+        +validarIsbn() Boolean
+    }
+
+    class EjemplarUsuario {
+        +BigInt usuario_id
+        +BigInt edicion_id
+        +String estado_lectura
+        +DateTime fecha_adquisicion
+        +cambiarEstado(String nuevoEstado) void
+    }
+
+    class SesionLectura {
+        +BigInt ejemplar_id
+        +DateTime fecha_inicio
+        +DateTime fecha_fin
+        +Int minutos_netos
+        +Int paginas_leidas
+        +Float paginas_por_minuto
+        +iniciarCronometro() void
+        +pausarCronometro() void
+        +finalizarSesion() void
+    }
+
+    class Resena {
+        +BigInt ejemplar_id
+        +String texto_resena
+        +Int calificacion_general
+        +String visibilidad
+        +publicar() void
+        +moderar() void
+    }
+
+    class ClubLectura {
+        +String nombre_club
+        +String privacidad
+        +programarReunion() void
+    }
+
+    %% Herencia de EntidadBase
+    EntidadBase <|-- Usuario
+    EntidadBase <|-- PerfilUsuario
+    EntidadBase <|-- CredencialUsuario
+    EntidadBase <|-- Rol
+    EntidadBase <|-- Permiso
+    EntidadBase <|-- BitacoraAcceso
+    EntidadBase <|-- SesionUsuario
+    EntidadBase <|-- Metodo2FA
+    EntidadBase <|-- Libro
+    EntidadBase <|-- Edicion
+    EntidadBase <|-- EjemplarUsuario
+    EntidadBase <|-- SesionLectura
+    EntidadBase <|-- Resena
+    EntidadBase <|-- ClubLectura
+
+    %% Relaciones
+    Usuario "1" *-- "1" PerfilUsuario
+    Usuario "1" *-- "1" CredencialUsuario
+    Usuario "1" o-- "0..*" SesionUsuario
+    Usuario "1" o-- "0..*" BitacoraAcceso
+    Usuario "1" o-- "0..1" Metodo2FA
+    Usuario "1" o-- "1..*" UsuarioRol
+    Rol "1" o-- "0..*" UsuarioRol
+    Rol "1" o-- "1..*" RolPermiso
+    Permiso "1" o-- "0..*" RolPermiso
+
+    Libro "1" *-- "1..*" Edicion
+    Usuario "1" o-- "0..*" EjemplarUsuario
+    Edicion "1" o-- "0..*" EjemplarUsuario
+    EjemplarUsuario "1" o-- "0..*" SesionLectura
+    EjemplarUsuario "1" o-- "0..1" Resena
+    Usuario "1" o-- "0..*" ClubLectura

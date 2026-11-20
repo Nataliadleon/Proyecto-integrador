@@ -1,0 +1,58 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario (Catalogador)
+    participant V as VistaCatalogoWeb (UI)
+    participant C as CatalogController
+    participant S as IsbnValidatorService
+    participant BD as DatabaseRepository (Multi-SGBD)
+    participant A as AuditService
+
+    Note over U,V: 1. Envío de Metadatos de la Obra y Edición
+    U->>V: submitBookRegistration(bookData, editionData)
+    V->>V: validateRequiredFields()
+    V->>C: POST /api/catalog/books {book, authors, genres, edition} (HTTPS)
+
+    Note over C: 2. Control de Autorización y Validación Algorítmica
+    C->>C: verifyAuthorization("CATALOG_CREATE")
+    C->>S: validateIsbn(editionData.isbn)
+    S->>S: computeChecksum(cleanIsbn) [Módulo 10 o Módulo 11]
+    S-->>C: boolean isValidIsbn
+
+    alt ISBN Inválido [isValidIsbn == false]
+        C-->>V: HTTP 422 Unprocessable Entity {"ISBN matemáticamente inválido"}
+        V-->>U: Notifica error de dígito verificador en formulario
+    else ISBN Válido [isValidIsbn == true]
+        Note over C,BD: 3. Comprobación de Unicidad de Edición
+        C->>BD: existsEditionByIsbn(isbn)
+        BD-->>C: boolean isDuplicate
+
+        alt Edición Previamente Existente [isDuplicate == true]
+            C-->>V: HTTP 409 Conflict {"La edición ya se encuentra registrada"}
+            V-->>U: Sugiere vincular la edición existente a su biblioteca
+        else Edición Nueva [isDuplicate == false]
+            Note over C,BD: 4. Transacción ACID de Persistencia
+            C->>BD: beginTransaction(IsolationLevel.ReadCommitted)
+            
+            BD->>BD: INSERT INTO libro (titulo, ano_publicacion_original, sinopsis, descripcion, creado_por, estatus) RETURNING libro_id
+            
+            loop Para cada Autor en authors
+                BD->>BD: INSERT INTO libro_autor (libro_id, autor_id, tipo_colaborador_id, orden)
+            end
+            
+            loop Para cada Género en genres
+                BD->>BD: INSERT INTO libro_genero (libro_id, genero_id)
+            end
+            
+            BD->>BD: INSERT INTO edicion (libro_id, editorial_id, formato_id, isbn, paginas, descripcion, creado_por, estatus) RETURNING edicion_id
+            
+            C->>A: logTransaction("libro", libro_id, "INSERT")
+            A->>BD: INSERT INTO auditoria_transaccion (tabla, registro_id, accion, usuario_id)
+            
+            BD->>BD: commitTransaction()
+            BD-->>C: Transaction COMMITTED {libro_id, edicion_id}
+
+            Note over C,V: 5. Respuesta Exitosa y Renderizado
+            C-->>V: HTTP 201 Created {book_id, edition_id, title, isbn}
+            V-->>U: Muestra ficha técnica consolidada del libro catalogado
+        end
+    end

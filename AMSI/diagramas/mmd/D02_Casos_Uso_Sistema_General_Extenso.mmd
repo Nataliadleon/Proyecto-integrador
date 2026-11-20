@@ -1,0 +1,146 @@
+flowchart LR
+    Visitante["Visitante (Gris)"]:::visitante
+    Lector["Lector (Azul)"]:::lector
+    Moderador["Moderador (Morado)"]:::moderador
+    Soporte["Soporte Técnico (Ámbar)"]:::soporte
+    Admin["Administrador (Rojo)"]:::admin
+    MotorCrypto["«system» Motor Criptográfico"]:::sistema
+    Prov2FA["«system» Proveedor 2FA"]:::sistema
+    ServNotif["«system» Servicio SMTP/Push"]:::sistema
+    subgraph Sistema["BOOK TRACKER — DIAGRAMA GENERAL EXTENSO DEL SISTEMA (18 SUBMÓDULOS)"]
+        subgraph P_Seg["A1-A4: Seguridad, Acceso y 2FA"]
+            G_A01(["CU-A-01: Autenticación y Control de Sesión"]):::cu
+            G_A02(["CU-A-02: Registro de Cuenta y Perfil"]):::cu
+            G_A03(["CU-A-03: Recuperación de Contraseña"]):::cu
+            G_A04(["CU-A-04: Gestión de Roles y Permisos RBAC"]):::cu
+            G_A05(["CU-A-05: Segundo Factor 2FA y Dispositivos"]):::cu
+            G_Hash(["Validar Hash y Bitácora"]):::cu
+        end
+        subgraph P_Priv["A5: Privacidad y ARCO"]
+            G_A06(["CU-A-06: Preferencias y Aviso de Privacidad"]):::cu
+            G_A07(["CU-A-07: Tramitar Solicitudes ARCO"]):::cu
+        end
+        subgraph P_Bib["A6-A9: Catálogo y Biblioteca Personal"]
+            G_A08(["CU-A-08: Consultar y Catalogar Libros/Ediciones"]):::cu
+            G_A09(["CU-A-09: Organizar Biblioteca, Estantes y Etiquetas"]):::cu
+            G_A10(["CU-A-10: Adquisiciones, Copias, Digital y Wishlist"]):::cu
+            G_A11(["CU-A-11: Importar Biblioteca desde CSV"]):::cu
+        end
+        subgraph P_Lect["B1-B3: Lectura, Notas y Reseñas"]
+            G_B01(["CU-B-01: Sesión de Lectura con Cronómetro"]):::cu
+            G_B02(["CU-B-02: Gestionar Notas, Citas y Adjuntos"]):::cu
+            G_B03(["CU-B-03: Publicar Reseñas y Calificaciones"]):::cu
+            G_B03M(["CU-B-03.1: Moderar Reseñas y Comentarios"]):::cu
+        end
+        subgraph P_Hab["B4-B6: Hábitos, Alertas y Gamificación"]
+            G_B04(["CU-B-04: Metas, Hábitos y Rachas"]):::cu
+            G_B05(["CU-B-05: Recordatorios y Notificaciones"]):::cu
+            G_B06(["CU-B-06: Logros, Insignias y Niveles"]):::cu
+        end
+        subgraph P_Soc["B7-B9: Comunidad, Analítica y Auditoría"]
+            G_B07(["CU-B-07: Estadísticas y Reportes PDF/CSV"]):::cu
+            G_B08(["CU-B-08: Clubes, Reuniones, Retos y Social"]):::cu
+            G_B09(["CU-B-09: Auditoría, Sincronización y Exportación"]):::cu
+        end
+    end
+
+    Visitante --> G_A01
+    Visitante --> G_A02
+    Visitante --> G_A03
+    Visitante --> G_A06
+    Lector --> G_A01
+    Lector --> G_A02
+    Lector --> G_A05
+    Lector --> G_A06
+    Lector --> G_A07
+    Lector --> G_A08
+    Lector --> G_A09
+    Lector --> G_A10
+    Lector --> G_A11
+    Lector --> G_B01
+    Lector --> G_B02
+    Lector --> G_B03
+    Lector --> G_B04
+    Lector --> G_B05
+    Lector --> G_B06
+    Lector --> G_B07
+    Lector --> G_B08
+    Lector --> G_B09
+    Moderador --> G_B03M
+    Moderador --> G_B08
+    Soporte --> G_A03
+    Soporte --> G_A07
+    Soporte --> G_B09
+    Admin --> G_A04
+    Admin --> G_A06
+    Admin --> G_A07
+    Admin --> G_A08
+    Admin --> G_B03M
+    Admin --> G_B09
+    G_Hash --- MotorCrypto
+    G_A05 --- Prov2FA
+    G_B05 --- ServNotif
+    G_A01 -.->|"«include»"| G_Hash
+    G_A05 -.->|"«extend»"| G_A01
+    G_A10 -.->|"«include»"| G_A09
+    G_A11 -.->|"«extend»"| G_A09
+    G_B01 -.->|"«include»"| G_B04
+    G_B02 -.->|"«extend»"| G_B01
+    G_B06 -.->|"«extend»"| G_B04
+    G_B03M -.->|"«extend»"| G_B03
+    G_B08 -.->|"«include»"| G_B05
+    G_A07 -.->|"«include»"| G_B09
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#64748B,stroke-width:2px
+    linkStyle 1 stroke:#64748B,stroke-width:2px
+    linkStyle 2 stroke:#64748B,stroke-width:2px
+    linkStyle 3 stroke:#64748B,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 8 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 9 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 10 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 11 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 12 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 13 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 14 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 15 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 16 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 17 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 18 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 19 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 20 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 21 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 22 stroke:#7C3AED,stroke-width:2px
+    linkStyle 23 stroke:#7C3AED,stroke-width:2px
+    linkStyle 24 stroke:#D97706,stroke-width:2px
+    linkStyle 25 stroke:#D97706,stroke-width:2px
+    linkStyle 26 stroke:#D97706,stroke-width:2px
+    linkStyle 27 stroke:#DC2626,stroke-width:2px
+    linkStyle 28 stroke:#DC2626,stroke-width:2px
+    linkStyle 29 stroke:#DC2626,stroke-width:2px
+    linkStyle 30 stroke:#DC2626,stroke-width:2px
+    linkStyle 31 stroke:#DC2626,stroke-width:2px
+    linkStyle 32 stroke:#DC2626,stroke-width:2px
+    linkStyle 33 stroke:#0D9488,stroke-width:2px
+    linkStyle 34 stroke:#0D9488,stroke-width:2px
+    linkStyle 35 stroke:#0D9488,stroke-width:2px
+    linkStyle 36 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 37 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 38 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 39 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 40 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 41 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 42 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 43 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 44 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 45 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5

@@ -1,0 +1,57 @@
+flowchart LR
+    Lector["Lector / Autor de Reseña (Azul)"]:::lector
+    Moderador["Moderador (Morado)"]:::moderador
+    Admin["Administrador (Rojo)"]:::admin
+    ServNotif["«system» Servicio Notificaciones"]:::sistema
+    subgraph SubRes["SUB-DIAGRAMA 7: SISTEMA DE RESEÑAS, CALIFICACIONES Y MODERACIÓN (B3)"]
+        RE1(["CU-B-03.1: Calificar Lectura General 1 a 5"]):::cu
+        RE2(["CU-B-03.2: Evaluar Criterios Trama/Estilo/Ritmo"]):::cu
+        RE3(["CU-B-03.3: Redactar Reseña Privada o Pública"]):::cu
+        RE4(["CU-B-03.4: Recalcular Promedio Libro y Género"]):::cu
+        RE5(["CU-B-03.5: Consultar Reseñas Públicas"]):::cu
+        RE6(["CU-B-03.6: Reaccionar a Reseña Pública"]):::cu
+        RE7(["CU-B-03.7: Comentar Reseña Pública"]):::cu
+        RE8(["CU-B-03.8: Reportar Comentario o Reseña"]):::cu
+        RE9(["CU-B-03.9: Desactivar Contenido estatus=INACTIVO"]):::cu
+    end
+
+    Lector --> RE1
+    Lector --> RE3
+    Lector --> RE5
+    Lector --> RE6
+    Lector --> RE7
+    Lector --> RE8
+    Lector --> RE9
+    Moderador --> RE9
+    Admin --> RE9
+    RE7 --- ServNotif
+    RE1 -.->|"«include»"| RE4
+    RE2 -.->|"«extend» (Si evalúa por criterios)"| RE1
+    RE3 -.->|"«extend» (Si publica reseña escrita)"| RE1
+    RE6 -.->|"«extend» (En reseña pública)"| RE5
+    RE7 -.->|"«extend» (En reseña pública)"| RE5
+    RE9 -.->|"«extend» (Baja simbólica inapropiado)"| RE8
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#7C3AED,stroke-width:2px
+    linkStyle 8 stroke:#DC2626,stroke-width:2px
+    linkStyle 9 stroke:#0D9488,stroke-width:2px
+    linkStyle 10 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 11 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 12 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 13 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 14 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

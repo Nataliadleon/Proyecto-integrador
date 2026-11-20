@@ -1,0 +1,88 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant V as VistaLoginWeb (UI)
+    participant C as SecurityController
+    participant S as CryptoService
+    participant BD as DatabaseRepository (Multi-SGBD)
+    participant N as NotificationService (SMTP)
+
+    Note over U,V: 1. Captura y Envío de Credenciales
+    U->>V: postCredentials(usuario/correo, password, remember)
+    V->>V: validateClientSyntax(identificador, password)
+    V->>C: POST /api/auth/login {identificador, password} (HTTPS TLS 1.3)
+    
+    Note over C: 2. Control Perimetral y Rate Limiting
+    C->>C: applyRateLimiting(ip_origen)
+    C->>BD: findLockoutStatus(identificador)
+    BD-->>C: lockoutStatus {is_locked, remaining_minutes}
+
+    alt Cuenta Bloqueada Previamente [is_locked == true]
+        C-->>V: HTTP 403 Forbidden {"Cuenta bloqueada temporalmente por 15 min"}
+        V-->>U: Muestra advertencia y tiempo restante de espera
+    else Cuenta No Bloqueada [is_locked == false]
+        Note over C,BD: 3. Recuperación de Credenciales
+        C->>BD: findUserCredentials(identificador)
+        BD-->>C: UserCredentialsRecord {usuario_id, hash_contrasena, salt, algoritmo, estatus}
+
+        Note over C,S: 4. Verificación Criptográfica en Tiempo Constante
+        C->>S: verifyPassword(password_plano, hash_almacenado, algoritmo)
+        S->>S: constantTimeCompare(derived_hash, target_hash)
+        S-->>C: boolean isValid
+
+        alt Credenciales Inválidas [isValid == false]
+            Note over C,BD: 5a. Incremento Atómico y Bloqueo a 5 Intentos
+            C->>BD: incrementFailedAttempts(identificador, ip_origen)
+            BD-->>C: current_attempts
+            C->>BD: insertAuditLog(identificador, "LOGIN_FALLIDO", ip, user_agent)
+            
+            opt Umbral de 5 Intentos Alcanzado [current_attempts >= 5]
+                C->>BD: applyTemporaryLockout(identificador, minutes=15)
+                C->>N: dispatchSecurityAlertEmail(identificador, "ALERTA: Cuenta bloqueada por fuerza bruta")
+            end
+            
+            C-->>V: HTTP 401 Unauthorized {"Credenciales incorrectas"}
+            V-->>U: Muestra mensaje genérico anti-enumeración
+        else Credenciales Válidas [isValid == true]
+            Note over C,BD: 5b. Restablecimiento de Intentos y Evaluación de 2FA
+            C->>BD: resetFailedAttempts(usuario_id)
+            C->>BD: checkMfaRequirement(usuario_id, rol)
+            BD-->>C: MfaConfig {requires_2fa, encrypted_secret}
+
+            alt Segundo Factor Requerido [rol == 'Administrador' || metodo_2fa.estatus == 'ACTIVO']
+                Note over C,S: Desafío Multifactor (TOTP - RFC 6238)
+                C->>S: decryptSecret(encrypted_secret, master_key_aes256)
+                S-->>C: decrypted_secret
+                C-->>V: HTTP 200 OK {status: "CHALLENGE_2FA_REQUIRED", challenge_token}
+                V-->>U: Solicita código TOTP de 6 dígitos
+                
+                loop Intentos TOTP (máx. 3)
+                    U->>V: submitTotpCode(code_6_digits)
+                    V->>C: POST /api/auth/mfa/verify {challenge_token, code_6_digits}
+                    C->>S: verifyTotp(code_6_digits, decrypted_secret, window=±30s)
+                    S-->>C: boolean isTotpValid
+                end
+            end
+
+            Note over C,S: 6. Generación de Token Opaco CSPRNG y Hash en BD
+            C->>S: generateSessionToken(256 bits CSPRNG)
+            S->>S: computeSha256Digest(plain_token)
+            S-->>C: TokenPair {plain_token, hash_token_sha256}
+
+            Note over C,BD: 7. Transacción ACID de Sesión
+            C->>BD: executeSessionTransaction(usuario_id, hash_token, ip, user_agent, expira_en)
+            BD->>BD: INSERT INTO sesion_usuario (hash_token, ip, ...)
+            BD->>BD: INSERT INTO bitacora_acceso (tipo_evento='LOGIN_EXITOSO', ...)
+            BD->>BD: UPDATE usuario SET ultimo_acceso = NOW()
+            BD-->>C: Transaction COMMITTED
+
+            opt Detección de Dispositivo Nuevo [device_fingerprint not in dispositivo_usuario]
+                C->>BD: registerNewDevice(usuario_id, fingerprint, es_confiable=0)
+                C->>N: dispatchNewDeviceAlert(usuario_id, ip, user_agent)
+            end
+
+            Note over C,V: 8. Emisión de Cookie Segura y Redirección
+            C-->>V: HTTP 200 OK + Set-Cookie: bt_session (HttpOnly, Secure, SameSite=Strict)
+            V-->>U: Redirección automática hacia /dashboard
+        end
+    end

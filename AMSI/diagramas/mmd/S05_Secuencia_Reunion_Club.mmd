@@ -1,0 +1,51 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario (Moderador del Club)
+    participant V as VistaClubWeb (UI)
+    participant C as ClubController
+    participant BD as DatabaseRepository (Multi-SGBD)
+    participant N as NotificationService (SMTP/Push)
+    participant A as AuditService
+
+    Note over U,V: 1. Envío de Datos de la Reunión
+    U->>V: submitMeetingSchedule(club_id, libro_id, fecha_hora, enlace_virtual, orden_del_dia)
+    V->>V: validateMeetingDate(fecha_hora > NOW())
+    V->>C: POST /api/clubs/meetings {club_id, libro_id, fecha_hora, enlace, orden} (HTTPS TLS 1.3)
+
+    Note over C,BD: 2. Verificación de Rol y Permisos de Moderación
+    C->>BD: checkMemberRole(club_id, usuario_id)
+    BD-->>C: MemberRoleRecord {rol: 'MODERADOR', estatus: 'ACTIVO'}
+
+    alt Permiso Denegado [rol != 'MODERADOR' && rol != 'CREADOR']
+        C-->>V: HTTP 403 Forbidden {"No cuenta con privilegios para convocar reuniones"}
+        V-->>U: Muestra advertencia de falta de permisos
+    else Permiso Autorizado [rol == 'MODERADOR']
+        Note over C,BD: 3. Transacción ACID de Alta de Reunión
+        C->>BD: beginTransaction(IsolationLevel.ReadCommitted)
+
+        BD->>BD: INSERT INTO reunion_club (club_lectura_id, libro_club_id, fecha_hora, enlace_virtual, orden_dia, estado) RETURNING reunion_id
+
+        C->>A: logTransaction("reunion_club", reunion_id, "INSERT")
+        A->>BD: INSERT INTO auditoria_transaccion (tabla='reunion_club', registro_id=reunion_id, accion='INSERT', usuario_id)
+
+        BD->>BD: commitTransaction()
+        BD-->>C: Transaction COMMITTED {reunion_id}
+
+        Note over C,N: 4. Despacho Asíncrono de Notificaciones Masivas (Background Task)
+        C->>BD: getActiveClubMembers(club_id)
+        BD-->>C: List<ClubMemberContact> membersList
+
+        C->>N: dispatchMeetingInvitationsAsync(membersList, meetingData)
+        
+        par Procesamiento Asíncrono de Avisos
+            loop Para cada Miembro en membersList
+                N->>BD: INSERT INTO notificacion (usuario_id, tipo='REUNION_CLUB', mensaje, leida=0)
+                opt Miembro tiene activadas alertas por correo
+                    N->>N: sendSmtpEmail(member.email, "Nueva Reunión de Club Programada")
+                end
+            end
+        and Respuesta Inmediata a la UI
+            C-->>V: HTTP 201 Created {reunion_id, fecha_hora, total_invitados: membersList.size()}
+            V-->>U: Confirma reunión agendada y actualiza calendario del club
+        end
+    end

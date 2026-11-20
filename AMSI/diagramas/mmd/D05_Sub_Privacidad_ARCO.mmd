@@ -1,0 +1,61 @@
+flowchart LR
+    Visitante["Visitante (Gris)"]:::visitante
+    Lector["Lector / Titular (Azul)"]:::lector
+    Soporte["Soporte Técnico (Ámbar)"]:::soporte
+    Admin["Administrador / Oficial Privacidad (Rojo)"]:::admin
+    ServNotif["«system» Servicio SMTP"]:::sistema
+    subgraph SubARCO["SUB-DIAGRAMA 3: PRIVACIDAD, CONSENTIMIENTO Y DERECHOS ARCO (A5, B9)"]
+        P1(["CU-A-06.1: Consultar Aviso de Privacidad Vigente"]):::cu
+        P2(["CU-A-06.2: Registrar Consentimiento con Versión e IP"]):::cu
+        P3(["CU-A-06.3: Configurar Preferencias e Idioma"]):::cu
+        P4(["CU-A-06.4: Publicar Nueva Versión de Aviso"]):::cu
+        P5(["CU-A-07.1: Solicitar Derecho ARCO"]):::cu
+        P6(["CU-A-07.2: Re-autenticar Identidad del Titular"]):::cu
+        P7(["CU-A-07.3: Emitir Acuse con Folio y Plazo 20 Días"]):::cu
+        P8(["CU-A-07.4: Exportar Expediente JSON/CSV Acceso"]):::cu
+        P9(["CU-A-07.5: Anonimizar y Baja Lógica Cancelación"]):::cu
+        P10(["CU-A-07.6: Resolver y Notificar Solicitud ARCO"]):::cu
+    end
+
+    Visitante --> P1
+    Visitante --> P2
+    Lector --> P1
+    Lector --> P3
+    Lector --> P5
+    Lector --> P8
+    Soporte --> P10
+    Admin --> P4
+    Admin --> P9
+    Admin --> P10
+    P7 --- ServNotif
+    P10 --- ServNotif
+    P2 -.->|"«include»"| P1
+    P5 -.->|"«include»"| P6
+    P5 -.->|"«include»"| P7
+    P8 -.->|"«extend» (Si tipo = Acceso)"| P5
+    P9 -.->|"«extend» (Si tipo = Cancelación)"| P10
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#64748B,stroke-width:2px
+    linkStyle 1 stroke:#64748B,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#D97706,stroke-width:2px
+    linkStyle 7 stroke:#DC2626,stroke-width:2px
+    linkStyle 8 stroke:#DC2626,stroke-width:2px
+    linkStyle 9 stroke:#DC2626,stroke-width:2px
+    linkStyle 10 stroke:#0D9488,stroke-width:2px
+    linkStyle 11 stroke:#0D9488,stroke-width:2px
+    linkStyle 12 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 16 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

@@ -1,0 +1,63 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    MotorCrypto["«system» Motor Criptográfico SHA-256"]:::sistema
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubBib["SUB-DIAGRAMA 5: BIBLIOTECA PERSONAL, COPIAS, ADQUISICIONES E IMPORTACIÓN (A7, A8, A9)"]
+        B1(["CU-A-09.1: Agregar Ejemplar y Estado de Lectura"]):::cu
+        B2(["CU-A-09.2: Administrar Estantes con Orden"]):::cu
+        B3(["CU-A-09.3: Crear Colecciones Temáticas"]):::cu
+        B4(["CU-A-09.4: Gestionar Etiquetas Personales"]):::cu
+        B5(["CU-A-09.5: Filtrar y Ordenar Biblioteca"]):::cu
+        B6(["CU-A-10.1: Registrar Adquisición / Compra"]):::cu
+        B7(["CU-A-10.2: Registrar Copia Física y Ubicación"]):::cu
+        B8(["CU-A-10.3: Adjuntar Archivo Digital <=100MB"]):::cu
+        B9(["CU-A-10.4: Calcular Hash Integridad SHA-256"]):::cu
+        B10(["CU-A-10.5: Vincular Suscripción Digital"]):::cu
+        B11(["CU-A-10.6: Gestionar Lista de Deseos Wishlist"]):::cu
+        B12(["CU-A-11.1: Importar Biblioteca desde CSV"]):::cu
+        B13(["CU-A-11.2: Validar Formato y Duplicados CSV"]):::cu
+        B14(["CU-A-11.3: Reintentar Filas con Error"]):::cu
+    end
+
+    Lector --> B1
+    Lector --> B2
+    Lector --> B3
+    Lector --> B4
+    Lector --> B5
+    Lector --> B6
+    Lector --> B11
+    Lector --> B12
+    B9 --- MotorCrypto
+    B12 --- SGBD
+    B6 -.->|"«include»"| B1
+    B7 -.->|"«extend» (Si formato físico)"| B6
+    B8 -.->|"«extend» (Si archivo ePub/PDF/Audio)"| B6
+    B8 -.->|"«include»"| B9
+    B10 -.->|"«extend» (Si Kindle/Audible)"| B6
+    B12 -.->|"«include»"| B13
+    B14 -.->|"«extend» (Si hubo filas con error)"| B12
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 8 stroke:#0D9488,stroke-width:2px
+    linkStyle 9 stroke:#0D9488,stroke-width:2px
+    linkStyle 10 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 11 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 12 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 15 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 16 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

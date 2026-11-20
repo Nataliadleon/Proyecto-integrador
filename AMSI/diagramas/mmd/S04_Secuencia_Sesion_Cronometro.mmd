@@ -1,0 +1,59 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario (Lector)
+    participant V as VistaCronometroWeb (UI)
+    participant C as ReadingSessionController
+    participant M as MetricsCalculatorService
+    participant BD as DatabaseRepository (Multi-SGBD)
+    participant A as AuditService
+
+    Note over U,V: 1. Solicitud de Finalización de Sesión de Lectura
+    U->>V: finishSession(ejemplar_id, pagina_final, pausas_array, lugar_lectura_id)
+    V->>V: validatePageInput(pagina_final >= pagina_inicial)
+    V->>C: POST /api/reading/sessions/complete {ejemplar_id, t_inicio, t_fin, pausas, pag_fin} (HTTPS)
+
+    Note over C,BD: 2. Recuperación del Estado del Ejemplar
+    C->>BD: getBookReadingProgress(usuario_id, ejemplar_id)
+    BD-->>C: ProgressRecord {pagina_actual, total_paginas, racha_actual}
+
+    Note over C,M: 3. Cálculo Especializado de Métricas de Productividad
+    C->>M: calculateNetDuration(t_inicio, t_fin, pausas)
+    M-->>C: net_minutes_duration
+    C->>M: calculateReadingSpeed(paginas_leidas, net_minutes)
+    M-->>C: pages_per_minute
+
+    Note over C,BD: 4. Transacción ACID de Hábitos y Progreso
+    C->>BD: beginTransaction(IsolationLevel.ReadCommitted)
+
+    BD->>BD: INSERT INTO sesion_lectura (usuario_id, ejemplar_id, inicio, fin, minutos_netos, paginas_leidas, ppm) RETURNING sesion_id
+
+    loop Para cada Pausa en pausas_array
+        BD->>BD: INSERT INTO pausa_sesion_lectura (sesion_lectura_id, inicio_pausa, fin_pausa, motivo)
+    end
+
+    BD->>BD: UPDATE progreso_lectura SET pagina_actual = :pag_fin, porcentaje = (:pag_fin / :total_paginas)*100 WHERE ejemplar_id = :id
+
+    BD->>BD: INSERT INTO registro_habito (usuario_id, fecha=TODAY, minutos_totales, paginas_totales) ON CONFLICT (usuario_id, fecha) DO UPDATE ...
+
+    Note over C,BD: 5. Evaluación de Continuidad de Racha (Submódulo B4)
+    BD->>BD: evaluateDailyReadingGoal(usuario_id, TODAY)
+    BD-->>C: goalAchieved {boolean goal_met}
+
+    opt Objetivo Diario Cumplido [goal_met == true]
+        BD->>BD: UPDATE racha_lectura SET dias_consecutivos = dias_consecutivos + 1, fecha_ultimo_dia = TODAY WHERE usuario_id = :u_id
+    end
+
+    opt Lectura Concluida al 100% [pag_fin == total_paginas]
+        BD->>BD: UPDATE ejemplar_usuario SET estado_lectura_id = 'LEIDO', fecha_terminado = NOW() WHERE ejemplar_id = :id
+        BD->>BD: INSERT INTO logro_usuario (usuario_id, logro_id='LIBRO_TERMINADO', fecha=NOW())
+    end
+
+    C->>A: logTransaction("sesion_lectura", sesion_id, "INSERT")
+    A->>BD: INSERT INTO auditoria_transaccion (tabla='sesion_lectura', registro_id=sesion_id, accion='INSERT', usuario_id)
+
+    BD->>BD: commitTransaction()
+    BD-->>C: Transaction COMMITTED {sesion_id, net_minutes, pages_per_minute, new_streak}
+
+    Note over C,V: 6. Renderizado de Resumen Estadístico
+    C-->>V: HTTP 201 Created {sesion_id, ppm, new_streak, progress_percentage}
+    V-->>U: Presenta resumen visual de la sesión y animación de progreso

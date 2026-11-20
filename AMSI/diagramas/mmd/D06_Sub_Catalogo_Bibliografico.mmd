@@ -1,0 +1,59 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    Admin["Administrador / Catalogador (Rojo)"]:::admin
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubCat["SUB-DIAGRAMA 4: CATÁLOGO BIBLIOGRÁFICO MAESTRO (A6)"]
+        C1(["CU-A-08.1: Buscar Libros Multicriterio"]):::cu
+        C2(["CU-A-08.2: Consultar Ficha de Obra y Ediciones"]):::cu
+        C3(["CU-A-08.3: Registrar Obra Literaria"]):::cu
+        C4(["CU-A-08.4: Registrar Edición con ISBN"]):::cu
+        C5(["CU-A-08.5: Validar Dígito Verificador ISBN"]):::cu
+        C6(["CU-A-08.6: Gestionar Autores y Colaboradores"]):::cu
+        C7(["CU-A-08.7: Gestionar Editoriales y Formatos"]):::cu
+        C8(["CU-A-08.8: Clasificar Géneros Jerárquicos"]):::cu
+        C9(["CU-A-08.9: Asociar Libro a Serie y Posición"]):::cu
+        C10(["CU-A-08.10: Desactivar Registro estatus=INACTIVO"]):::cu
+    end
+
+    Lector --> C1
+    Lector --> C2
+    Lector --> C3
+    Lector --> C4
+    Admin --> C3
+    Admin --> C4
+    Admin --> C6
+    Admin --> C7
+    Admin --> C8
+    Admin --> C9
+    Admin --> C10
+    C1 --- SGBD
+    C4 -.->|"«include»"| C5
+    C3 -.->|"«include»"| C6
+    C3 -.->|"«include»"| C8
+    C9 -.->|"«extend» (Si pertenece a saga)"| C3
+    C3 -.->|"«extend» (Si no existe en búsqueda)"| C1
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#DC2626,stroke-width:2px
+    linkStyle 5 stroke:#DC2626,stroke-width:2px
+    linkStyle 6 stroke:#DC2626,stroke-width:2px
+    linkStyle 7 stroke:#DC2626,stroke-width:2px
+    linkStyle 8 stroke:#DC2626,stroke-width:2px
+    linkStyle 9 stroke:#DC2626,stroke-width:2px
+    linkStyle 10 stroke:#DC2626,stroke-width:2px
+    linkStyle 11 stroke:#0D9488,stroke-width:2px
+    linkStyle 12 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 16 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

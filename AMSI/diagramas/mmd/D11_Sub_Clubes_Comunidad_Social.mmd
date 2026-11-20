@@ -1,0 +1,64 @@
+flowchart LR
+    Lector["Lector / Miembro (Azul)"]:::lector
+    Moderador["Moderador / Organizador (Morado)"]:::moderador
+    Admin["Administrador (Rojo)"]:::admin
+    ServNotif["«system» Servicio SMTP/Push"]:::sistema
+    subgraph SubClub["SUB-DIAGRAMA 9: CLUBES DE LECTURA, REUNIONES, RETOS Y SOCIAL (B8)"]
+        CL1(["CU-B-08.1: Crear y Configurar Club de Lectura"]):::cu
+        CL2(["CU-B-08.2: Unirse, Salir y Asignar Roles de Club"]):::cu
+        CL3(["CU-B-08.3: Elegir Libro del Periodo"]):::cu
+        CL4(["CU-B-08.4: Programar Reunión y Notificar"]):::cu
+        CL5(["CU-B-08.5: Registrar Asistencia a Reunión"]):::cu
+        CL6(["CU-B-08.6: Publicar Mensajes en Foro del Club"]):::cu
+        CL7(["CU-B-08.7: Moderar Mensajes estatus=INACTIVO"]):::cu
+        CL8(["CU-B-08.8: Seguir Usuarios y Ver Actividad"]):::cu
+        CL9(["CU-B-08.9: Crear y Participar en Retos"]):::cu
+        CL10(["CU-B-08.10: Recomendar Libro a Otro Lector"]):::cu
+    end
+
+    Lector --> CL1
+    Lector --> CL2
+    Lector --> CL5
+    Lector --> CL6
+    Lector --> CL8
+    Lector --> CL9
+    Lector --> CL10
+    Moderador --> CL2
+    Moderador --> CL3
+    Moderador --> CL4
+    Moderador --> CL7
+    Moderador --> CL9
+    Admin --> CL7
+    CL4 --- ServNotif
+    CL10 --- ServNotif
+    CL1 -.->|"«include»"| CL2
+    CL4 -.->|"«include»"| CL3
+    CL5 -.->|"«extend» (Durante reunión activa)"| CL4
+    CL7 -.->|"«extend» (Si mensaje reportado)"| CL6
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#7C3AED,stroke-width:2px
+    linkStyle 8 stroke:#7C3AED,stroke-width:2px
+    linkStyle 9 stroke:#7C3AED,stroke-width:2px
+    linkStyle 10 stroke:#7C3AED,stroke-width:2px
+    linkStyle 11 stroke:#7C3AED,stroke-width:2px
+    linkStyle 12 stroke:#DC2626,stroke-width:2px
+    linkStyle 13 stroke:#0D9488,stroke-width:2px
+    linkStyle 14 stroke:#0D9488,stroke-width:2px
+    linkStyle 15 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 16 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 17 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 18 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

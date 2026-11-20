@@ -100,7 +100,7 @@ Conforme a la rúbrica oficial (Criterio 2.2 y 2.3 de FBD), el sistema divide su
 | **Proporción de Catálogos** | Máximo 25% catálogos simples | ✅ **Cumple (< 25%)** |
 | **Entidades Complejas** | Mínimo 75% transaccionales, intermedias, maestras y bitácoras | ✅ **Cumple (>= 75%)** |
 | **Integridad Referencial** | Cero tablas huérfanas; 100% conectadas con PK/FK activas | ✅ **Cumple** |
-| **Regla de Auditoría** | Campos de trazabilidad (`creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `activo`) y borrado lógico | ✅ **Estandarizado en el 100% de tablas** |
+| **Regla de Auditoría y Baja Lógica** | 9 atributos obligatorios en todas las tablas (`id_<tabla>`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `eliminado_por`, `fecha_eliminacion`, `estatus VARCHAR(15) CHECK (estatus IN ('ACTIVO','INACTIVO'))`) — eliminación estrictamente simbólica | ✅ **Estandarizado en el 100% de tablas** |
 
 ---
 

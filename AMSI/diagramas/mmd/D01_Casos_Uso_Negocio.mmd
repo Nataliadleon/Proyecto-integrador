@@ -1,0 +1,79 @@
+flowchart LR
+    Visitante["Visitante"]:::visitante
+    Lector["Lector"]:::lector
+    Moderador["Moderador"]:::moderador
+    Soporte["Soporte Técnico"]:::soporte
+    Admin["Administrador"]:::admin
+    ServNotif["«system» Notificaciones"]:::sistema
+    subgraph Negocio["BOOK TRACKER — MODELO DE NEGOCIO"]
+        N01(["N-01: Incorporar Nuevo Lector y Aceptar Privacidad"]):::cu
+        N02(["N-02: Gestionar Biblioteca Personal y Catálogo"]):::cu
+        N03(["N-03: Administrar Adquisiciones, Copias y Suscripciones"]):::cu
+        N04(["N-04: Importar Acervo Externo"]):::cu
+        N05(["N-05: Registrar Actividad y Progreso de Lectura"]):::cu
+        N06(["N-06: Documentar Notas, Citas y Reseñas"]):::cu
+        N07(["N-07: Sostener Hábitos, Metas y Gamificación"]):::cu
+        N08(["N-08: Participar en Clubes y Comunidad Lectora"]):::cu
+        N09(["N-09: Consultar Analítica y Reportes de Lectura"]):::cu
+        N10(["N-10: Moderar Contenido Comunitario"]):::cu
+        N11(["N-11: Atender Derechos ARCO y Soporte"]):::cu
+        N12(["N-12: Gobernar Seguridad, Roles y Auditoría"]):::cu
+        N13(["N-13: Despachar Alertas y Recordatorios"]):::cu
+    end
+
+    Visitante --> N01
+    Lector --> N02
+    Lector --> N03
+    Lector --> N04
+    Lector --> N05
+    Lector --> N06
+    Lector --> N07
+    Lector --> N08
+    Lector --> N09
+    Lector --> N11
+    Moderador --> N08
+    Moderador --> N10
+    Soporte --> N11
+    Admin --> N02
+    Admin --> N11
+    Admin --> N12
+    N13 --- ServNotif
+    N04 -.->|"«extend»"| N02
+    N03 -.->|"«include»"| N02
+    N05 -.->|"«include»"| N07
+    N07 -.->|"«include»"| N13
+    N08 -.->|"«include»"| N13
+    N10 -.->|"«extend»"| N08
+    N09 -.->|"«include»"| N05
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#64748B,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 8 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 9 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 10 stroke:#7C3AED,stroke-width:2px
+    linkStyle 11 stroke:#7C3AED,stroke-width:2px
+    linkStyle 12 stroke:#D97706,stroke-width:2px
+    linkStyle 13 stroke:#DC2626,stroke-width:2px
+    linkStyle 14 stroke:#DC2626,stroke-width:2px
+    linkStyle 15 stroke:#DC2626,stroke-width:2px
+    linkStyle 16 stroke:#0D9488,stroke-width:2px
+    linkStyle 17 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 18 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 19 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 20 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 21 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 22 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 23 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5

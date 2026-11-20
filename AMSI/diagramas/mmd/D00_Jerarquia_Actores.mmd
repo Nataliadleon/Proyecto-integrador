@@ -1,0 +1,39 @@
+flowchart TD
+    subgraph ActoresHumanos["Actores Humanos (Jerarquía RBAC)"]
+        Visitante["Visitante / No Registrado<br/>(Nivel 0 — Gris)"]:::visitante
+        Lector["Usuario Autenticado / Lector<br/>(Nivel 1 — Azul)"]:::lector
+        Moderador["Moderador de Club<br/>(Nivel 1.5 — Morado)"]:::moderador
+        Soporte["Soporte Técnico<br/>(Nivel 2 — Ámbar)"]:::soporte
+        Admin["Administrador del Sistema<br/>(Nivel 3 — Rojo)"]:::admin
+    end
+    subgraph ActoresSistema["Actores Secundarios / Sistemas Externos (Teal)"]
+        MotorCrypto["«system» Motor Criptográfico<br/>(Argon2id / bcrypt / AES-256)"]:::sistema
+        Prov2FA["«system» Proveedor 2FA<br/>(TOTP RFC 6238)"]:::sistema
+        ServNotif["«system» Servicio SMTP / Push"]:::sistema
+        SGBD["«system» SGBD Multi-Motor<br/>(SQL Server / PostgreSQL)"]:::sistema
+    end
+
+    Visitante -.->|"Registro / Login"| Lector
+    Lector -->|"«generalization»"| Moderador
+    Lector -->|"«generalization»"| Soporte
+    Lector -->|"«generalization»"| Admin
+    Admin --- MotorCrypto
+    Lector --- Prov2FA
+    Lector --- ServNotif
+    Admin --- SGBD
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#64748B,stroke-width:2px
+    linkStyle 1 stroke:#0F172A,stroke-width:2px
+    linkStyle 2 stroke:#0F172A,stroke-width:2px
+    linkStyle 3 stroke:#0F172A,stroke-width:2px
+    linkStyle 4 stroke:#0D9488,stroke-width:2px
+    linkStyle 5 stroke:#0D9488,stroke-width:2px
+    linkStyle 6 stroke:#0D9488,stroke-width:2px
+    linkStyle 7 stroke:#0D9488,stroke-width:2px

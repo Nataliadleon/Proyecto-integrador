@@ -68,7 +68,7 @@ flowchart TD
 Proyecto Integrador/
 │
 ├── .gitignore                                                              # Exclusión de temporales de Office (~$*) y SO
-├── Proyecto Integrador V.pdf                                              # Especificación general y guía del proyecto
+├── Proyecto-Integrador-V-Semestre-corregido.pdf                            # Especificación general y guía oficial corregida del proyecto
 ├── Rúbricas de Evaluación - Proyecto Integrador TecNM (AMSI, FBD, Redes, TLI).pdf  # Instrumento oficial por competencias
 ├── README.md                                                               # Documento maestro del repositorio
 │

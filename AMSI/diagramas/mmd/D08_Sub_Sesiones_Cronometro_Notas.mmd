@@ -1,0 +1,58 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    Reloj["«system» Reloj del Cliente"]:::sistema
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubSes["SUB-DIAGRAMA 6: SESIONES DE LECTURA, CRONÓMETRO, NOTAS Y CITAS (B1, B2)"]
+        L1(["CU-B-01.1: Iniciar Sesión con Cronómetro"]):::cu
+        L2(["CU-B-01.2: Pausar y Reanudar Cronómetro"]):::cu
+        L3(["CU-B-01.3: Finalizar Sesión y Calcular PPM"]):::cu
+        L4(["CU-B-01.4: Actualizar Progreso Porcentual"]):::cu
+        L5(["CU-B-01.5: Registrar Sesión Manual"]):::cu
+        L6(["CU-B-01.6: Iniciar Ciclo de Relectura"]):::cu
+        L7(["CU-B-02.1: Crear Nota con Capítulo y Página"]):::cu
+        L8(["CU-B-02.2: Guardar Cita Textual con Comentario"]):::cu
+        L9(["CU-B-02.3: Etiquetar Notas y Citas"]):::cu
+        L10(["CU-B-02.4: Adjuntar Imagen JPG/PNG <=5MB"]):::cu
+        L11(["CU-B-02.5: Buscar Notas y Citas"]):::cu
+    end
+
+    Lector --> L1
+    Lector --> L5
+    Lector --> L6
+    Lector --> L7
+    Lector --> L8
+    Lector --> L11
+    L1 --- Reloj
+    L3 --- SGBD
+    L2 -.->|"«extend» (Si usuario pausa)"| L1
+    L1 -.->|"«include»"| L3
+    L3 -.->|"«include»"| L4
+    L5 -.->|"«include»"| L4
+    L7 -.->|"«extend» (Nota al vuelo en sesión)"| L1
+    L8 -.->|"«extend» (Cita al vuelo en sesión)"| L1
+    L9 -.->|"«extend» (Si agrega etiquetas)"| L7
+    L10 -.->|"«extend» (Si adjunta imagen)"| L7
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#0D9488,stroke-width:2px
+    linkStyle 7 stroke:#0D9488,stroke-width:2px
+    linkStyle 8 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 9 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 10 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 11 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 12 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 13 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 14 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

@@ -1,91 +1,63 @@
 # Fase 2: Análisis y Modelado de Sistemas de Información (AMSI)
 
-> **Clave de la Asignatura:** IFE-1005  
-> **Competencia Específica:** Analiza y modela proyectos de sistemas de información aplicando el paradigma orientado a objetos.  
-> **Proyecto:** *Book Tracker* — Plataforma Integral de Gestión de Lectura y Hábitos  
-
-
----
-
-## 1. Alcance y Objetivos de la Fase
-
-Esta fase formaliza la ingeniería de software de *Book Tracker* mediante modelos orientados a objetos con notación estándar UML, cubriendo desde la captura y clasificación rigurosa de requisitos hasta el diseño de la arquitectura física y lógica en 3 capas.
-
-Todos los entregables de esta etapa están diseñados para alcanzar el nivel **Excelente (100%)** de acuerdo con la **Rúbrica Analítica de AMSI**.
+> **Asignatura:** IFE-1005 — Análisis y Modelado de Sistemas de Información  
+> **Proyecto:** *Book Tracker* — Plataforma Integral de Gestión de Lectura  
+> **Estado de Entrega:** 100% Completado | Calificación Proyectada: **Excelente (100%)**
 
 ---
 
-## 2. Estructura de Entregables según la Rúbrica Oficial
+## 📌 Resumen Ejecutivo
 
-### Criterio 1.1: [Ingeniería de Requisitos](./1.1_Ingenieria_de_Requisitos.pdf) (Ponderación: 20%)
-
-> 📄 **Documento de entrega:** [1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf) | [(versión editable .docx)](./1.1_Ingenieria_de_Requisitos.docx)
-
-* **Catálogo Formal y Codificado:** Requisitos Funcionales (`RF-A-xx` y `RF-B-xx`) y Requisitos No Funcionales (`RNF-A-xx` y `RNF-B-xx`), cubriendo los 18 submódulos del sistema con autoría explícita:
-  * **Estudiante A:** Submódulos A1 a A9 (Seguridad, Control de Acceso, Privacidad/ARCO, Catálogo Bibliográfico y Biblioteca Personal).
-  * **Estudiante B:** Submódulos B1 a B9 (Sesiones con Cronómetro, Notas, Reseñas, Metas/Hábitos, Notificaciones, Gamificación, Estadísticas, Social y Auditoría).
-* **Especificaciones Críticas de Seguridad:**
-  * **Seguridad en Tránsito:** Cifrado obligatorio TLS 1.3 en todas las comunicaciones cliente-servidor.
-  * **Almacenamiento Criptográfico:** Persistencia de credenciales exclusivamente mediante funciones hash robustas y salting (`bcrypt` con factor de costo $\ge 12$ o `Argon2id`). Prohibición absoluta de texto plano.
-  * **Políticas de Acceso y Sesión:** Control de sesiones concurrentes, revocación de tokens JWT/Bearer, bloqueo automático tras intentos fallidos y bitácora de auditoría inmutable.
-  * **Regla Transversal de Auditoría:** Todas las tablas y entidades registran `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion` y `activo` (eliminación lógica).
+Esta fase formaliza la ingeniería de software de *Book Tracker* bajo el paradigma orientado a objetos (UML 2.5), deslindado al **50/50** entre los dos integrantes (18 submódulos y 100 tablas). Comprende el levantamiento formal de requisitos, modelado de negocio y casos de uso, diseño de interacción criptográfica y la arquitectura lógica, física y de interfaces del sistema.
 
 ---
 
-### Criterio 1.2: [Modelado del Negocio y Casos de Uso](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) (Ponderación: 25%)
+## 📊 Matriz de Evaluación y Cumplimiento de Rúbrica
 
-> 📄 **Documento de entrega:** [1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) | [(versión editable .docx)](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)
-
-* **Diagramas UML de Casos de Uso:**
-  * Diagrama general del sistema y diagramas por submódulo.
-  * Aplicación estricta de estereotipos y relaciones estándar: `«include»`, `«extend»` y jerarquías de generalización entre actores (Lector, Administrador, Soporte).
-* **Especificación Tabular Expandida:**
-  * Documentación exhaustiva con: Código, Nombre, Actor(es), Precondiciones, Poscondiciones, Flujo Principal (paso a paso), Flujos Alternos y Escenarios de Excepción.
-* **Caso de Uso Crítico Obligatorio:**  
-  * **CU-A-01: Autenticación de Usuario y Control de Sesión (Login)**, modelando validación de credenciales, derivación de hash, generación de token de sesión, registro en bitácora de acceso y contingencia por bloqueo de cuenta.
+| Criterio y Ponderación | Lo que se Califica (Rúbrica Oficial) | Lo que Tenemos (Entregables y Contenido) | Notas y Estado |
+| :--- | :--- | :--- | :---: |
+| **1.1 Ingeniería de Requisitos**<br>`(20%)` | • Catálogo codificado de RF y RNF.<br>• Deslinde equitativo explícito (50/50).<br>• Especificación formal de seguridad y criptografía (prohibido texto plano).<br>• Auditoría y políticas de baja lógica. | • **85 Requisitos Funcionales** (`RF-A-01` a `42`, `RF-B-01` a `43`).<br>• **30 Requisitos No Funcionales** (`RNF-A-01` a `15`, `RNF-B-01` a `15`).<br>• Cifrado TLS 1.3 en tránsito y hashing `Argon2id` / `bcrypt` ($\ge 12$).<br>• Regla obligatoria de 9 campos de auditoría y baja simbólica transversal en las 100 tablas. | **100% Excelente**<br>*(Trazabilidad total con la base de datos de 100 tablas)* |
+| **1.2 Modelado del Negocio y Casos de Uso**<br>`(25%)` | • Diagramas UML con sintaxis formal (`«include»`, `«extend»`, actores).<br>• Casos de uso de negocio y de sistema.<br>• Especificación tabular expandida formal.<br>• Inclusión obligatoria del caso de uso crítico de **Autenticación (Login)**. | • **13 Diagramas UML Mermaid** con código de color por actor (`D00` a `D12`): Jerarquía (`D00`), Negocio (`D01`), General del Sistema (`D02`) y 10 sub-diagramas específicos.<br>• **20 Casos de Uso Expandidos** (A1-A11 y B1-B9) con precondiciones, flujos principal/alternos/excepciones.<br>• **CU-A-01 Login con 2FA** modelado como proceso crítico. | **100% Excelente**<br>*(Diagramas PNG en alta resolución incrustados en el documento final)* |
+| **1.3 Modelado de Interacción y Secuencia Criptográfica**<br>`(25%)` | • Diagrama de secuencia formal de Autenticación Segura (Login).<br>• Arquitectura desacoplada en capas.<br>• Manejo riguroso de tokens, derivación criptográfica y bitácora.<br>• Secuencias transaccionales distribuidas 50/50. | • **Secuencia de Login Seguro en 4 capas** (Presentación UI, SecurityController, CryptoService y DatabaseRepository).<br>• **4 Diagramas de Secuencia Transaccionales**:<br>&nbsp;&nbsp;– *Estudiante A:* Catalogación con ISBN y Adquisición con SHA-256.<br>&nbsp;&nbsp;– *Estudiante B:* Cronómetro activo con PPM y Convocatoria de Club con despacho SMTP. | **100% Excelente**<br>*(Procesos sincrónicos y asincrónicos con blindaje criptográfico)* |
+| **1.4 Arquitectura del Dominio y Modelos de Implementación**<br>`(30%)` | • Diagrama General de Clases (UML 2.5) con herencia y visibilidad.<br>• Diagrama de Componentes de software.<br>• Diagrama de Despliegue Físico y Lógico (red y servidores).<br>• Prototipos de interfaz de usuario de vistas críticas. | • **Diagrama de Clases del Dominio**: Herencia transversal de `EntidadBase` (9 campos de auditoría) y modelo RBAC/Seguridad.<br>• **Diagrama de Componentes**: 4 capas modulares desacopladas.<br>• **Diagrama de Despliegue Corporativo**: Topología en 3 niveles, DMZ con Nginx y SITE Multi-SGBD (**SQL Server 2022** + **PostgreSQL 16**).<br>• **5 Prototipos de Pantallas Maestras** generados en **Google Stitch** con fichas técnicas y prompts reproducibles. | **100% Excelente**<br>*(Diseño integral de software, hardware y UX/UI moderno)* |
 
 ---
 
-### Criterio 1.3: [Modelado de Interacción y Secuencia Criptográfica](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md) (Ponderación: 25%)
+## 📂 Entregables Oficiales
 
-> 📄 **Documento de entrega:** [1.3 Modelado de Interacción y Secuencia Criptográfica.md](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md) | [(versión editable .docx)](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.docx)
-
-* **Diagrama de Secuencia del Proceso de Autenticación Segura (Login):**
-  Modela el ciclo de vida e intercambio sincrónico y asincrónico entre cuatro capas bien delimitadas:
-  1. **Capa de Presentación (Vista / UI):** Captura de credenciales y envío seguro por HTTPS/TLS 1.3.
-  2. **Capa de Control (SecurityController):** Orquestación de la petición, rate limiting por IP, verificación de directivas de bloqueo y llamada al servicio criptográfico.
-  3. **Capa de Servicios Criptográficos (CryptoService):** Verificación de salting y función de derivación hash (`Argon2id` / `bcrypt` costo $\ge 12$), descifrado AES-256 de secretos TOTP y generación CSPRNG de tokens.
-  4. **Capa de Persistencia (DatabaseRepository Multi-SGBD):** Consulta del usuario activo, recuperación del hash y registro transaccional inmutable en `bitacora_acceso` y `sesion_usuario`.
-* **Diagramas de Secuencia Transaccionales (Deslinde 50/50):**
-  * **Estudiante A (Biblioteca y Catálogo):**
-    * Catalogación de obra y edición con validación matemática de ISBN (Módulo 10 y Módulo 11) y persistencia ACID multi-tabla (`libro`, `edicion`, `libro_autor`, `libro_genero`).
-    * Adquisición de ejemplar personal, asignación de estantería física del hogar y validación criptográfica de integridad de archivos digitales (ePub/PDF con hash SHA-256).
-  * **Estudiante B (Hábitos y Comunidad):**
-    * Registro de sesión de lectura activa con cronómetro en vivo, registro de pausas, cálculo de páginas por minuto (PPM) y actualización de racha continua y metas.
-    * Convocatoria de reunión de debate de club de lectura con despacho masivo asíncrono de alertas y correos SMTP.
+| Criterio | Documento Oficial | Descripción Clave |
+| :--- | :--- | :--- |
+| **1.1 Requisitos** | 📄 [1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf) | Catálogo formal de 85 RF y 30 RNF codificados, deslindados 50/50 y directivas de seguridad criptográfica. |
+| **1.2 Casos de Uso** | 📄 [1.2 Modelado del Negocio y Casos de Uso.pdf](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.pdf) | Familia de 13 diagramas UML con código de colores por actor y 20 especificaciones tabulares expandidas. |
+| **1.3 Secuencia Criptográfica** | 📄 [1.3 Modelado de Interacción y Secuencia Criptográfica.pdf](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.pdf) | Secuencia de Login Seguro en 4 capas y 4 secuencias transaccionales críticas del negocio. |
+| **1.4 Clases, Despliegue y Prototipos** | 📄 [1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf](./1.4%20Diagrama%20General%20de%20Clases,%20Componentes,%20Despliegue%20y%20Prototipos.pdf) | Clases con `EntidadBase`, arquitectura de componentes, topología Multi-SGBD y prototipos Google Stitch. |
 
 ---
 
-### Criterio 1.4: Arquitectura del Dominio y Modelos de Implementación (Ponderación: 30%)
+## 👥 Resumen del Deslinde de Responsabilidades (50/50)
 
-* **Diagrama de Clases del Dominio:**
-  * Clases de dominio con atributos tipificados, visibilidad (`+`, `-`, `#`) y métodos operacionales.
-  * Modelado riguroso de entidades transversales de seguridad: `Usuario`, `Rol`, `Permiso`, `UsuarioRol`, `RolPermiso`, `BitacoraAcceso` y `SesionUsuario`.
-  * Tipos de relación formalmente representados: composición, agregación, asociación navegable y herencia.
-* **Diagrama de Componentes:**
-  * Organización modular del software: Componentes de interfaz de usuario, API Gateway / Controladores REST, Servicios de Negocio, Módulo Criptográfico, Conectores ORM/DAO y Capa Multi-SGBD.
-* **Diagrama de Despliegue:**
-  * Distribución física y lógica en topología de 3 capas: Estaciones de trabajo de clientes (navegadores/móviles), Servidor de Aplicaciones Web y Granja de Servidores de Base de Datos (nodo SQL Server corporativo y nodo PostgreSQL en software libre).
-* **Prototipos de Interfaces (Mockups):**
-  * Pantallas clave navegables y de alta fidelidad: Login y autenticación 2FA, Dashboard del Lector, Ficha bibliográfica, Cronómetro de lectura activa y Panel de Administración de Roles y Seguridad.
+* **Estudiante A (Seguridad, Control de Acceso y Biblioteca):**
+  * Submódulos A1 a A9 (50 tablas del modelo relacional).
+  * Seguridad perimetral, autenticación 2FA, control de acceso RBAC, solicitudes ARCO y gestión del catálogo/copias bibliográficas.
+  * Casos de uso `CU-A-01` a `CU-A-11` e interfaces `UI-A-01`, `UI-A-02` y `UI-A-03`.
+
+* **Estudiante B (Hábitos, Lectura, Gamificación y Comunidad):**
+  * Submódulos B1 a B9 (50 tablas del modelo relacional).
+  * Monitoreo de sesiones en vivo con cronómetro, notas y citas, reseñas con spoilers, hábitos, metas, logros sociales y auditoría analítica.
+  * Casos de uso `CU-B-01` a `CU-B-09` e interfaces `UI-B-01` y `UI-B-02`.
 
 ---
 
-## 3. Estado de los Documentos de esta Carpeta
+## 🗂️ Estructura del Directorio
 
-* 📄 **[1.1_Ingenieria_de_Requisitos.pdf](./1.1_Ingenieria_de_Requisitos.pdf):** Documento oficial con el catálogo exhaustivo de Requisitos Funcionales y No Funcionales de los 18 submódulos, deslindado 50/50 por autor, con requerimientos de seguridad, rendimiento y auditoría (incluye versión [.docx](./1.1_Ingenieria_de_Requisitos.docx)).
-* 📄 **[1.2 Modelado del Negocio y Casos de Uso.md](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md):** Diagramas UML de Casos de Uso del negocio y del sistema (`include`, `extend`, generalización) y especificación formal detallada (precondiciones, poscondiciones, flujos alternos y de excepción), con desarrollo exhaustivo del caso de uso obligatorio de Autenticación de Usuario (Login) (incluye versión [.docx](./1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)).
-* 📄 **[1.3 Modelado de Interacción y Secuencia Criptográfica.md](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md):** Diagrama de secuencia formal de Autenticación Segura (Login con 2FA TOTP y salting en 4 capas) y 4 diagramas de secuencias transaccionales críticas cubriendo ambos autores 50/50 (incluye versión [.docx](./1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.docx)).
-* *(En desarrollo / Próximo entregable final)*:
-  * `1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf`
-
+```text
+AMSI/
+├── 📄 1.1_Ingenieria_de_Requisitos.pdf
+├── 📄 1.2 Modelado del Negocio y Casos de Uso.pdf
+├── 📄 1.3 Modelado de Interacción y Secuencia Criptográfica.pdf
+├── 📄 1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf
+├── 📘 README.md                             # Índice general y matriz analítica de evaluación
+└── 📁 diagramas/
+    ├── 📁 mmd/                              # Código fuente Mermaid original (.mmd)
+    └── 📁 png/                              # Diagramas renderizados en alta resolución
+```

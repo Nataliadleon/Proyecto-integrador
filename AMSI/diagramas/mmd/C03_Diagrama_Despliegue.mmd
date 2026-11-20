@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph Clientes["Nivel 1: Nodos Cliente (Dispositivos de Usuario)"]
+        N_PC["Nodo: Estacion de Trabajo PC<br/>Navegador Web Chrome o Edge"]
+        N_Movil["Nodo: Dispositivo Movil<br/>Navegador Movil o PWA"]
+    end
+
+    subgraph DMZ["Nivel 2: DMZ y Servidor de Aplicaciones Corporativo"]
+        Node_Web["Servidor Web Inverso Nginx<br/>Terminacion TLS 1.3 con HSTS"]
+        Node_API["Servidor de Aplicaciones REST<br/>Logica de Negocio Book Tracker"]
+        Node_Crypto["Modulo Criptografico Local<br/>Libreria Argon2id y bcrypt"]
+    end
+
+    subgraph DataCenter["Nivel 3: Granja de Servidores de Base de Datos Multi-SGBD"]
+        subgraph Svr_MSSQL["Servidor BD Comercial (Windows Server 2022)"]
+            Inst_MSSQL[("Instancia SQL Server 2022<br/>TDE Activo - Puerto 1433")]
+        end
+        subgraph Svr_Postgres["Servidor BD Software Libre (Ubuntu Linux)"]
+            Inst_PG[("Instancia PostgreSQL 16<br/>sslmode=verify-full - Puerto 5432")]
+        end
+    end
+
+    N_PC -->|"HTTPS TLS 1.3 (Puerto 443)"| Node_Web
+    N_Movil -->|"HTTPS TLS 1.3 (Puerto 443)"| Node_Web
+    Node_Web -->|"Proxy Inverso Unix Socket"| Node_API
+    Node_API --- Node_Crypto
+
+    Node_API -->|"Conexion TDS Cifrada (Puerto 1433)"| Inst_MSSQL
+    Node_API -->|"Conexion TLS Nativa (Puerto 5432)"| Inst_PG

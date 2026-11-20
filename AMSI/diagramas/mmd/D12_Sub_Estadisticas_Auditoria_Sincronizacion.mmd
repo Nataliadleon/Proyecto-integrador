@@ -1,0 +1,56 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    Soporte["Soporte Técnico (Ámbar)"]:::soporte
+    Admin["Administrador (Rojo)"]:::admin
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubEst["SUB-DIAGRAMA 10: ESTADÍSTICAS, REPORTES, AUDITORÍA Y SINCRONIZACIÓN (B7, B9)"]
+        E1(["CU-B-07.1: Consultar Panel de Estadísticas"]):::cu
+        E2(["CU-B-07.2: Consolidar Métricas Diarias/Mensuales"]):::cu
+        E3(["CU-B-07.3: Ver Gráficas por Género/Autor/Ritmo"]):::cu
+        E4(["CU-B-07.4: Generar y Exportar Reporte PDF/CSV"]):::cu
+        E5(["CU-B-09.1: Sincronizar Datos entre Dispositivos"]):::cu
+        E6(["CU-B-09.2: Resolver Conflictos Última Edición"]):::cu
+        E7(["CU-B-09.3: Exportar Datos Personales JSON/CSV"]):::cu
+        E8(["CU-B-09.4: Registrar Auditoría Transaccional"]):::cu
+        E9(["CU-B-09.5: Consultar Bitácora con Filtros"]):::cu
+        E10(["CU-B-09.6: Consultar Registros Inactivos"]):::cu
+    end
+
+    Lector --> E1
+    Lector --> E3
+    Lector --> E4
+    Lector --> E5
+    Lector --> E7
+    Soporte --> E9
+    Admin --> E9
+    Admin --> E10
+    E2 --- SGBD
+    E8 --- SGBD
+    E1 -.->|"«include»"| E2
+    E3 -.->|"«include»"| E2
+    E6 -.->|"«extend» (Si conflicto de versión)"| E5
+    E7 -.->|"«include»"| E8
+    E9 -.->|"«include»"| E8
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#D97706,stroke-width:2px
+    linkStyle 6 stroke:#DC2626,stroke-width:2px
+    linkStyle 7 stroke:#DC2626,stroke-width:2px
+    linkStyle 8 stroke:#0D9488,stroke-width:2px
+    linkStyle 9 stroke:#0D9488,stroke-width:2px
+    linkStyle 10 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 11 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 12 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5

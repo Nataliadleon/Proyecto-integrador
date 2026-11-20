@@ -1,0 +1,68 @@
+flowchart LR
+    Visitante["Visitante (Gris)"]:::visitante
+    Lector["Lector (Azul)"]:::lector
+    Soporte["Soporte Técnico (Ámbar)"]:::soporte
+    Admin["Administrador (Rojo)"]:::admin
+    MotorCrypto["«system» Motor Criptográfico"]:::sistema
+    Prov2FA["«system» Proveedor 2FA"]:::sistema
+    ServNotif["«system» Servicio SMTP"]:::sistema
+    subgraph SubSeg["SUB-DIAGRAMA 1: SEGURIDAD, AUTENTICACIÓN, SESIONES Y 2FA (A1, A3, A4)"]
+        S1(["CU-A-02.1: Registrar Cuenta y Validar Correo"]):::cu
+        S2(["CU-A-01: Iniciar Sesión y Controlar Sesión"]):::cu
+        S3(["CU-A-01.1: Verificar Hash Argon2id/bcrypt"]):::cu
+        S4(["CU-A-01.2: Registrar Bitácora de Acceso"]):::cu
+        S5(["CU-A-01.3: Bloquear Cuenta por 5 Intentos"]):::cu
+        S6(["CU-A-05.1: Desafiar Segundo Factor TOTP"]):::cu
+        S7(["CU-A-05.2: Configurar 2FA y 10 Códigos Respaldo"]):::cu
+        S8(["CU-A-05.3: Gestionar Dispositivos y Cierre Remoto"]):::cu
+        S9(["CU-A-03: Recuperar Contraseña con Token 30 min"]):::cu
+        S10(["CU-A-02.2: Cambiar Contraseña y Validar Historial"]):::cu
+        S11(["CU-A-01.4: Desbloquear Cuenta Asistida"]):::cu
+    end
+
+    Visitante --> S1
+    Visitante --> S2
+    Visitante --> S9
+    Lector --> S2
+    Lector --> S7
+    Lector --> S8
+    Lector --> S10
+    Soporte --> S11
+    Admin --> S11
+    Admin --> S4
+    S3 --- MotorCrypto
+    S6 --- Prov2FA
+    S9 --- ServNotif
+    S2 -.->|"«include»"| S3
+    S2 -.->|"«include»"| S4
+    S6 -.->|"«extend» (Si 2FA activo o Admin)"| S2
+    S5 -.->|"«extend» (5 intentos fallidos)"| S2
+    S1 -.->|"«include»"| S3
+    S10 -.->|"«include»"| S3
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#64748B,stroke-width:2px
+    linkStyle 1 stroke:#64748B,stroke-width:2px
+    linkStyle 2 stroke:#64748B,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 7 stroke:#D97706,stroke-width:2px
+    linkStyle 8 stroke:#DC2626,stroke-width:2px
+    linkStyle 9 stroke:#DC2626,stroke-width:2px
+    linkStyle 10 stroke:#0D9488,stroke-width:2px
+    linkStyle 11 stroke:#0D9488,stroke-width:2px
+    linkStyle 12 stroke:#0D9488,stroke-width:2px
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 16 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 17 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 18 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5

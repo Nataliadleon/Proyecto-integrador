@@ -1,0 +1,54 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    ServNotif["«system» Servicio Push/SMTP"]:::sistema
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubHab["SUB-DIAGRAMA 8: METAS, HÁBITOS, RECORDATORIOS Y GAMIFICACIÓN (B4, B5, B6)"]
+        H1(["CU-B-04.1: Crear Meta de Lectura"]):::cu
+        H2(["CU-B-04.2: Actualizar Progreso de Meta"]):::cu
+        H3(["CU-B-04.3: Cerrar Meta Cumplida o Vencida"]):::cu
+        H4(["CU-B-04.4: Definir Hábito Programado"]):::cu
+        H5(["CU-B-04.5: Registrar Cumplimiento y Racha"]):::cu
+        H6(["CU-B-05.1: Programar Recordatorios"]):::cu
+        H7(["CU-B-05.2: Configurar Canales de Alerta"]):::cu
+        H8(["CU-B-05.3: Emitir Notificación y Marcar Leída"]):::cu
+        H9(["CU-B-06.1: Desbloquear Logro / Insignia"]):::cu
+        H10(["CU-B-06.2: Acumular Puntos y Subir Nivel"]):::cu
+        H11(["CU-B-06.3: Consultar Logros Obtenidos y Pendientes"]):::cu
+    end
+
+    Lector --> H1
+    Lector --> H4
+    Lector --> H5
+    Lector --> H6
+    Lector --> H7
+    Lector --> H11
+    H8 --- ServNotif
+    H2 --- SGBD
+    H1 -.->|"«include»"| H2
+    H3 -.->|"«extend» (Al vencer periodo)"| H2
+    H5 -.->|"«include»"| H2
+    H6 -.->|"«include»"| H8
+    H9 -.->|"«extend» (Si cumple hito)"| H5
+    H9 -.->|"«include»"| H10
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 2 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 3 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 4 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 5 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 6 stroke:#0D9488,stroke-width:2px
+    linkStyle 7 stroke:#0D9488,stroke-width:2px
+    linkStyle 8 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 9 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 10 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 11 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 12 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5

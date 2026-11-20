@@ -1,0 +1,57 @@
+flowchart LR
+    Lector["Lector (Azul)"]:::lector
+    Soporte["Soporte Técnico (Ámbar)"]:::soporte
+    Admin["Administrador (Rojo)"]:::admin
+    SGBD["«system» SGBD Multi-Motor"]:::sistema
+    subgraph SubRBAC["SUB-DIAGRAMA 2: CONTROL DE ACCESO RBAC, POLÍTICAS Y BAJA SIMBÓLICA (A2, A1)"]
+        R1(["CU-A-04.1: Gestionar Catálogo de Roles"]):::cu
+        R2(["CU-A-04.2: Gestionar Catálogo de Permisos"]):::cu
+        R3(["CU-A-04.3: Asociar Permisos a Roles"]):::cu
+        R4(["CU-A-04.4: Asignar y Revocar Roles con Vigencia"]):::cu
+        R5(["CU-A-04.5: Validar Permiso RBAC en Servidor"]):::cu
+        R6(["CU-A-04.6: Configurar Política de Contraseñas"]):::cu
+        R7(["CU-A-04.7: Aplicar Baja Simbólica estatus=INACTIVO"]):::cu
+        R8(["CU-A-04.8: Reactivar Cuenta estatus=ACTIVO"]):::cu
+        R9(["CU-A-04.9: Consultar Cuentas Inactivas"]):::cu
+    end
+
+    Lector --> R5
+    Soporte --> R9
+    Admin --> R1
+    Admin --> R2
+    Admin --> R3
+    Admin --> R4
+    Admin --> R6
+    Admin --> R7
+    Admin --> R8
+    Admin --> R9
+    R5 --- SGBD
+    R7 --- SGBD
+    R1 -.->|"«include»"| R5
+    R4 -.->|"«include»"| R5
+    R7 -.->|"«include»"| R5
+    R8 -.->|"«extend» (Si cuenta inactiva)"| R9
+
+    classDef visitante fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A,font-weight:bold
+    classDef lector fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#1E3A8A,font-weight:bold
+    classDef moderador fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#4C1D95,font-weight:bold
+    classDef soporte fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef admin fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#7F1D1D,font-weight:bold
+    classDef sistema fill:#CCFBF1,stroke:#0D9488,stroke-width:2px,color:#134E4A,font-weight:bold
+    classDef cu fill:#FFFFFF,stroke:#334155,stroke-width:1.5px,color:#0F172A
+    linkStyle 0 stroke:#1D4ED8,stroke-width:2px
+    linkStyle 1 stroke:#D97706,stroke-width:2px
+    linkStyle 2 stroke:#DC2626,stroke-width:2px
+    linkStyle 3 stroke:#DC2626,stroke-width:2px
+    linkStyle 4 stroke:#DC2626,stroke-width:2px
+    linkStyle 5 stroke:#DC2626,stroke-width:2px
+    linkStyle 6 stroke:#DC2626,stroke-width:2px
+    linkStyle 7 stroke:#DC2626,stroke-width:2px
+    linkStyle 8 stroke:#DC2626,stroke-width:2px
+    linkStyle 9 stroke:#DC2626,stroke-width:2px
+    linkStyle 10 stroke:#0D9488,stroke-width:2px
+    linkStyle 11 stroke:#0D9488,stroke-width:2px
+    linkStyle 12 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 13 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 14 stroke:#334155,stroke-width:1.5px,stroke-dasharray:5 5
+    linkStyle 15 stroke:#475569,stroke-width:1.5px,stroke-dasharray:3 3

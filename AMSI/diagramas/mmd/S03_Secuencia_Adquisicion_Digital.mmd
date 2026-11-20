@@ -1,0 +1,54 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario (Lector)
+    participant V as VistaAdquisicionWeb (UI)
+    participant C as AcquisitionController
+    participant S as CryptoService
+    participant BD as DatabaseRepository (Multi-SGBD)
+    participant A as AuditService
+
+    Note over U,V: 1. Captura de Datos de Adquisición
+    U->>V: submitAcquisition(edicion_id, fuente_id, costo, fecha, formato, payload)
+    V->>V: validateAcquisitionPayload()
+    V->>C: POST /api/library/acquisitions (HTTPS TLS 1.3)
+
+    Note over C: 2. Validación de Estado y Autorización
+    C->>C: verifyUserSession()
+    C->>BD: verifyEditionExists(edicion_id)
+    BD-->>C: boolean editionExists
+
+    alt Edición Inexistente [editionExists == false]
+        C-->>V: HTTP 404 Not Found {"Edición no encontrada en catálogo"}
+    else Edición Válida [editionExists == true]
+        Note over C,BD: 3. Transacción ACID de Adquisición Personal
+        C->>BD: beginTransaction(IsolationLevel.ReadCommitted)
+
+        BD->>BD: INSERT INTO adquisicion (usuario_id, edicion_id, fuente_adquisicion_id, fecha_adquisicion, precio_pagado) RETURNING adquisicion_id
+        BD->>BD: INSERT INTO ejemplar_usuario (usuario_id, edicion_id, estado_lectura_id, descripcion, creado_por, estatus) RETURNING ejemplar_id
+
+        alt Formato Físico [formato == 'FISICO']
+            Note over C,BD: Alta de Copia Física y Ubicación en Casa
+            BD->>BD: INSERT INTO copia_fisica (ejemplar_id, adquisicion_id, estado_conservacion, codigo_barras_personal) RETURNING copia_id
+            opt Asigna Ubicación Específica
+                BD->>BD: INSERT INTO ubicacion_fisica (copia_fisica_id, habitacion, estante, balda)
+            end
+        else Formato Digital [formato == 'DIGITAL_EPUB_PDF']
+            Note over C,S: Validación Criptográfica de Integridad de Archivo
+            C->>S: computeFileSha256(file_stream)
+            S-->>C: hash_sha256_archivo
+            BD->>BD: INSERT INTO archivo_digital (ejemplar_id, formato_archivo, peso_bytes, hash_sha256, ruta_almacenamiento) RETURNING archivo_id
+        else Suscripción Digital [formato == 'STREAMING_SUSCRIPCION']
+            Note over C,BD: Registro en Plataforma de Suscripción (Kindle / Audible)
+            BD->>BD: INSERT INTO suscripcion_lectura (usuario_id, ejemplar_id, plataforma, fecha_inicio_acceso)
+        end
+
+        C->>A: logTransaction("adquisicion", adquisicion_id, "INSERT")
+        A->>BD: INSERT INTO auditoria_transaccion (tabla='adquisicion', registro_id=adquisicion_id, accion='INSERT', usuario_id)
+
+        BD->>BD: commitTransaction()
+        BD-->>C: Transaction COMMITTED {ejemplar_id, adquisicion_id}
+
+        Note over C,V: 4. Respuesta Exitosa
+        C-->>V: HTTP 201 Created {ejemplar_id, estado: "EN_BIBLIOTECA"}
+        V-->>U: Muestra confirmación y agrega el libro a la estantería virtual
+    end
