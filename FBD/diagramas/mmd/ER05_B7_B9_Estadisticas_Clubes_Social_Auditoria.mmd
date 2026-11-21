@@ -1,0 +1,212 @@
+erDiagram
+    %% =========================================================================
+    %% ER05: ESTUDIANTE B — SUBMÓDULOS B7 a B9 (18 Tablas)
+    %% Estadísticas y Reportes, Clubes y Social, Auditoría, Sincronización y Portabilidad
+    %% =========================================================================
+
+    usuario {
+        bigint id_usuario PK "Ref A1"
+    }
+
+    dispositivo_usuario {
+        bigint id_dispositivo_usuario PK "Ref A4"
+    }
+
+    libro {
+        bigint id_libro PK "Ref A6"
+    }
+
+    nivel_lector {
+        bigint id_nivel_lector PK "Ref B6"
+    }
+
+    estadistica_diaria {
+        bigint id_estadistica_diaria PK
+        bigint id_usuario FK
+        date fecha_estadistica
+        int minutos_leidos
+        int paginas_leidas
+        int sesiones_completadas
+    }
+
+    estadistica_mensual {
+        bigint id_estadistica_mensual PK
+        bigint id_usuario FK
+        bigint id_nivel_lector FK
+        int anio
+        int mes
+        int total_minutos
+        int total_paginas
+        int libros_terminados
+    }
+
+    reporte_generado {
+        bigint id_reporte_generado PK
+        bigint id_usuario FK
+        varchar tipo_reporte
+        varchar formato_exportacion
+        varchar ruta_archivo
+        timestamp fecha_generacion
+    }
+
+    club_lectura {
+        bigint id_club_lectura PK
+        bigint id_usuario FK "Creador"
+        varchar nombre_club UK
+        varchar privacidad
+        int limite_miembros
+    }
+
+    rol_club {
+        bigint id_rol_club PK
+        varchar codigo_rol_club UK
+        varchar nombre_rol_club
+    }
+
+    miembro_club {
+        bigint id_miembro_club PK
+        bigint id_club_lectura FK
+        bigint id_usuario FK
+        bigint id_rol_club FK
+        timestamp fecha_ingreso
+    }
+
+    libro_club {
+        bigint id_libro_club PK
+        bigint id_club_lectura FK
+        bigint id_libro FK
+        date fecha_inicio_lectura
+        date fecha_fin_lectura
+        varchar estado_lectura_club
+    }
+
+    reunion_club {
+        bigint id_reunion_club PK
+        bigint id_club_lectura FK
+        bigint id_libro_club FK "NULLable"
+        varchar titulo_reunion
+        timestamp fecha_reunion
+        varchar modalidad
+        varchar enlace_o_lugar
+    }
+
+    asistencia_reunion {
+        bigint id_asistencia_reunion PK
+        bigint id_reunion_club FK
+        bigint id_miembro_club FK
+        varchar estado_asistencia
+        timestamp fecha_confirmacion
+    }
+
+    mensaje_club {
+        bigint id_mensaje_club PK
+        bigint id_club_lectura FK
+        bigint id_usuario FK
+        text contenido_mensaje
+        timestamp fecha_publicacion
+    }
+
+    seguimiento_usuario {
+        bigint id_seguimiento_usuario PK
+        bigint id_usuario_seguidor FK "CHECK <> seguido"
+        bigint id_usuario_seguido FK
+        timestamp fecha_seguimiento
+    }
+
+    reto_lectura {
+        bigint id_reto_lectura PK
+        bigint id_usuario FK "Organizador"
+        varchar nombre_reto
+        int meta_libros
+        date fecha_inicio
+        date fecha_fin
+    }
+
+    participante_reto {
+        bigint id_participante_reto PK
+        bigint id_reto_lectura FK
+        bigint id_usuario FK
+        int avance_libros
+        boolean completado
+        timestamp fecha_inscripcion
+    }
+
+    recomendacion_libro {
+        bigint id_recomendacion_libro PK
+        bigint id_usuario_emisor FK "CHECK <> receptor"
+        bigint id_usuario_receptor FK
+        bigint id_libro FK
+        varchar mensaje_recomendacion
+        boolean vista
+        timestamp fecha_recomendacion
+    }
+
+    auditoria_transaccion {
+        bigint id_auditoria_transaccion PK
+        bigint id_usuario FK "NULLable"
+        varchar nombre_tabla
+        bigint id_registro_afectado
+        varchar tipo_operacion
+        varchar ip_origen
+        timestamp fecha_operacion
+    }
+
+    auditoria_detalle_cambio {
+        bigint id_auditoria_detalle_cambio PK
+        bigint id_auditoria_transaccion FK
+        varchar nombre_columna
+        text valor_anterior
+        text valor_nuevo
+    }
+
+    sincronizacion_dispositivo {
+        bigint id_sincronizacion_dispositivo PK
+        bigint id_dispositivo_usuario FK
+        varchar tipo_sincronizacion
+        int registros_sincronizados
+        varchar resultado_sync
+        timestamp fecha_sincronizacion
+    }
+
+    exportacion_datos {
+        bigint id_exportacion_datos PK
+        bigint id_usuario FK
+        varchar formato_archivo
+        varchar estado_exportacion
+        varchar hash_sha256
+        timestamp fecha_solicitud
+        timestamp fecha_expiracion
+    }
+
+    %% Relaciones B7 - B9
+    usuario ||--o{ estadistica_diaria : "acumula diario"
+    usuario ||--o{ estadistica_mensual : "consolida mes"
+    nivel_lector ||--o{ estadistica_mensual : "alcanza nivel"
+    usuario ||--o{ reporte_generado : "genera reporte"
+
+    usuario ||--o{ club_lectura : "crea club"
+    club_lectura ||--o{ miembro_club : "afilia"
+    usuario ||--o{ miembro_club : "participa"
+    rol_club ||--o{ miembro_club : "asigna rol"
+    club_lectura ||--o{ libro_club : "selecciona"
+    libro ||--o{ libro_club : "se lee en"
+    club_lectura ||--o{ reunion_club : "convoca"
+    libro_club |o--o{ reunion_club : "discute libro"
+    reunion_club ||--o{ asistencia_reunion : "controla"
+    miembro_club ||--o{ asistencia_reunion : "asiste"
+    club_lectura ||--o{ mensaje_club : "aloja foro"
+    usuario ||--o{ mensaje_club : "publica mensaje"
+
+    usuario ||--o{ seguimiento_usuario : "sigue a"
+    usuario ||--o{ seguimiento_usuario : "es seguido por"
+    usuario ||--o{ reto_lectura : "organiza"
+    reto_lectura ||--o{ participante_reto : "inscribe"
+    usuario ||--o{ participante_reto : "compite"
+    usuario ||--o{ recomendacion_libro : "recomienda"
+    usuario ||--o{ recomendacion_libro : "recibe rec"
+    libro ||--o{ recomendacion_libro : "es recomendado"
+
+    usuario |o--o{ auditoria_transaccion : "ejecuta op"
+    auditoria_transaccion ||--o{ auditoria_detalle_cambio : "detalla campo"
+    dispositivo_usuario ||--o{ sincronizacion_dispositivo : "sincroniza"
+    usuario ||--o{ exportacion_datos : "exporta datos"

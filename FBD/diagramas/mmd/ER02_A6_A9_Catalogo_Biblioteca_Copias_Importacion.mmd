@@ -1,0 +1,273 @@
+erDiagram
+    %% =========================================================================
+    %% ER02: ESTUDIANTE A — SUBMÓDULOS A6 a A9 (28 Tablas)
+    %% Catálogo Bibliográfico, Biblioteca Personal, Copias, Adquisiciones e Importación
+    %% =========================================================================
+
+    usuario {
+        bigint id_usuario PK "Ref A1"
+    }
+
+    idioma {
+        bigint id_idioma PK "Ref A5"
+    }
+
+    autor {
+        bigint id_autor PK
+        varchar nombre_completo
+        varchar pais_origen
+        int anio_nacimiento
+        text biografia
+    }
+
+    editorial {
+        bigint id_editorial PK
+        varchar nombre_editorial UK
+        varchar pais
+        varchar sitio_web
+    }
+
+    libro {
+        bigint id_libro PK
+        varchar titulo_original
+        int anio_publicacion_original
+        text sinopsis
+    }
+
+    tipo_colaborador {
+        bigint id_tipo_colaborador PK
+        varchar codigo_tipo UK
+        varchar nombre_tipo
+    }
+
+    libro_autor {
+        bigint id_libro_autor PK
+        bigint id_libro FK
+        bigint id_autor FK
+        bigint id_tipo_colaborador FK
+        int orden_credito
+    }
+
+    formato_libro {
+        bigint id_formato_libro PK
+        varchar codigo_formato UK
+        varchar nombre_formato
+    }
+
+    edicion {
+        bigint id_edicion PK
+        bigint id_libro FK
+        bigint id_editorial FK
+        bigint id_idioma FK
+        bigint id_formato_libro FK
+        varchar isbn_10
+        varchar isbn_13 UK
+        int anio_edicion
+        int numero_paginas
+        varchar url_portada
+    }
+
+    genero {
+        bigint id_genero PK
+        bigint id_genero_padre FK "NULLable (Recursiva)"
+        varchar nombre_genero UK
+    }
+
+    libro_genero {
+        bigint id_libro_genero PK
+        bigint id_libro FK
+        bigint id_genero FK
+    }
+
+    serie_libro {
+        bigint id_serie_libro PK
+        varchar nombre_serie UK
+        int total_volumenes
+    }
+
+    libro_serie {
+        bigint id_libro_serie PK
+        bigint id_libro FK
+        bigint id_serie_libro FK
+        decimal numero_volumen
+    }
+
+    estado_lectura {
+        bigint id_estado_lectura PK
+        varchar codigo_estado UK
+        varchar nombre_estado
+    }
+
+    ejemplar_usuario {
+        bigint id_ejemplar_usuario PK
+        bigint id_usuario FK
+        bigint id_edicion FK
+        bigint id_estado_lectura FK
+        boolean es_favorito
+        date fecha_alta_biblioteca
+    }
+
+    etiqueta {
+        bigint id_etiqueta PK
+        bigint id_usuario FK
+        varchar nombre_etiqueta
+        varchar color_hex
+    }
+
+    etiqueta_ejemplar {
+        bigint id_etiqueta_ejemplar PK
+        bigint id_etiqueta FK
+        bigint id_ejemplar_usuario FK
+    }
+
+    estante {
+        bigint id_estante PK
+        bigint id_usuario FK
+        varchar nombre_estante
+        boolean es_publico
+    }
+
+    estante_ejemplar {
+        bigint id_estante_ejemplar PK
+        bigint id_estante FK
+        bigint id_ejemplar_usuario FK
+        int orden_estante
+    }
+
+    coleccion {
+        bigint id_coleccion PK
+        bigint id_usuario FK
+        varchar nombre_coleccion
+        boolean es_publica
+    }
+
+    coleccion_ejemplar {
+        bigint id_coleccion_ejemplar PK
+        bigint id_coleccion FK
+        bigint id_ejemplar_usuario FK
+    }
+
+    ubicacion_fisica {
+        bigint id_ubicacion_fisica PK
+        bigint id_usuario FK
+        varchar nombre_ubicacion
+        varchar referencia_espacio
+    }
+
+    copia_fisica {
+        bigint id_copia_fisica PK
+        bigint id_ejemplar_usuario FK
+        bigint id_ubicacion_fisica FK "NULLable"
+        varchar estado_conservacion
+        boolean esta_firmado
+        varchar codigo_inventario
+    }
+
+    fuente_adquisicion {
+        bigint id_fuente_adquisicion PK
+        varchar nombre_fuente UK
+        varchar tipo_fuente
+        varchar url_sitio
+    }
+
+    suscripcion_lectura {
+        bigint id_suscripcion_lectura PK
+        bigint id_usuario FK
+        bigint id_fuente_adquisicion FK
+        varchar nombre_plan
+        varchar estado_suscripcion
+        date fecha_inicio
+        date fecha_vencimiento
+    }
+
+    archivo_digital {
+        bigint id_archivo_digital PK
+        bigint id_ejemplar_usuario FK
+        bigint id_suscripcion_lectura FK "NULLable"
+        varchar formato_archivo
+        varchar ruta_almacenamiento
+        bigint tamano_bytes
+        varchar hash_sha256
+    }
+
+    wishlist_item {
+        bigint id_wishlist_item PK
+        bigint id_usuario FK
+        bigint id_libro FK
+        int prioridad
+        varchar nota_deseo
+        date fecha_agregado
+    }
+
+    adquisicion {
+        bigint id_adquisicion PK
+        bigint id_ejemplar_usuario FK
+        bigint id_fuente_adquisicion FK
+        varchar tipo_adquisicion
+        date fecha_adquisicion
+        decimal precio_pagado
+        varchar moneda
+    }
+
+    importacion_biblioteca {
+        bigint id_importacion_biblioteca PK
+        bigint id_usuario FK
+        varchar origen_plataforma
+        varchar nombre_archivo
+        int total_filas
+        int filas_exitosas
+        varchar estado_importacion
+        timestamp fecha_importacion
+    }
+
+    detalle_importacion {
+        bigint id_detalle_importacion PK
+        bigint id_importacion_biblioteca FK
+        bigint id_ejemplar_usuario FK "NULLable"
+        int numero_fila
+        varchar resultado_fila
+        varchar mensaje_error
+    }
+
+    %% Relaciones A6 - A9
+    libro ||--o{ libro_autor : "escrito por"
+    autor ||--o{ libro_autor : "participa en"
+    tipo_colaborador ||--o{ libro_autor : "define rol"
+    libro ||--o{ edicion : "publica"
+    editorial ||--o{ edicion : "edita"
+    idioma ||--o{ edicion : "traduce"
+    formato_libro ||--o{ edicion : "presenta"
+    genero |o--o{ genero : "subgenero de"
+    libro ||--o{ libro_genero : "pertenece a"
+    genero ||--o{ libro_genero : "clasifica"
+    libro ||--o{ libro_serie : "integra"
+    serie_libro ||--o{ libro_serie : "agrupa"
+
+    usuario ||--o{ ejemplar_usuario : "posee"
+    edicion ||--o{ ejemplar_usuario : "instancia"
+    estado_lectura ||--o{ ejemplar_usuario : "marca estado"
+    usuario ||--o{ etiqueta : "crea"
+    etiqueta ||--o{ etiqueta_ejemplar : "etiqueta"
+    ejemplar_usuario ||--o{ etiqueta_ejemplar : "recibe"
+    usuario ||--o{ estante : "organiza"
+    estante ||--o{ estante_ejemplar : "contiene"
+    ejemplar_usuario ||--o{ estante_ejemplar : "se ubica en"
+    usuario ||--o{ coleccion : "agrupa"
+    coleccion ||--o{ coleccion_ejemplar : "incluye"
+    ejemplar_usuario ||--o{ coleccion_ejemplar : "forma parte"
+
+    usuario ||--o{ ubicacion_fisica : "define"
+    ejemplar_usuario ||--o{ copia_fisica : "especializa fisica"
+    ubicacion_fisica |o--o{ copia_fisica : "resguarda"
+    usuario ||--o{ suscripcion_lectura : "contrata"
+    fuente_adquisicion ||--o{ suscripcion_lectura : "provee"
+    ejemplar_usuario ||--o{ archivo_digital : "especializa digital"
+    suscripcion_lectura |o--o{ archivo_digital : "habilita"
+    usuario ||--o{ wishlist_item : "desea"
+    libro ||--o{ wishlist_item : "deseado en"
+    ejemplar_usuario ||--o{ adquisicion : "registra compra"
+    fuente_adquisicion ||--o{ adquisicion : "vende o provee"
+
+    usuario ||--o{ importacion_biblioteca : "ejecuta"
+    importacion_biblioteca ||--o{ detalle_importacion : "detalla"
+    ejemplar_usuario |o--o{ detalle_importacion : "genera"

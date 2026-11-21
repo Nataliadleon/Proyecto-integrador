@@ -1,0 +1,225 @@
+erDiagram
+    %% =========================================================================
+    %% ER01: ESTUDIANTE A — SUBMÓDULOS A1 a A5 (22 Tablas)
+    %% Seguridad, Credenciales, RBAC, Sesiones, 2FA, Privacidad y ARCO
+    %% Nota: Todas las entidades heredan los 9 atributos de auditoría (EntidadBase)
+    %% =========================================================================
+
+    usuario {
+        bigint id_usuario PK
+        varchar nombre_usuario UK
+        varchar correo UK
+        boolean correo_confirmado
+        timestamp ultimo_acceso
+        varchar estatus
+    }
+
+    perfil_usuario {
+        bigint id_perfil_usuario PK
+        bigint id_usuario FK "UK (1:1)"
+        varchar nombre
+        varchar apellido_paterno
+        varchar apellido_materno
+        date fecha_nacimiento
+        varchar pais
+        varchar biografia
+    }
+
+    credencial_usuario {
+        bigint id_credencial_usuario PK
+        bigint id_usuario FK "UK (1:1)"
+        varchar hash_contrasena
+        varchar algoritmo_hash
+        int costo_hash
+        timestamp fecha_ultimo_cambio
+        boolean requiere_cambio
+    }
+
+    historial_credencial {
+        bigint id_historial_credencial PK
+        bigint id_usuario FK
+        varchar hash_anterior
+        varchar algoritmo_hash
+        timestamp fecha_registro
+    }
+
+    politica_contrasena {
+        bigint id_politica_contrasena PK
+        bigint id_rol FK "UK"
+        int longitud_minima
+        boolean requiere_mayuscula
+        boolean requiere_numero
+        boolean requiere_simbolo
+        int dias_vigencia
+        int max_intentos_fallidos
+    }
+
+    rol {
+        bigint id_rol PK
+        varchar codigo_rol UK
+        varchar nombre_rol UK
+        int nivel_jerarquia
+    }
+
+    permiso {
+        bigint id_permiso PK
+        varchar codigo_permiso UK
+        varchar modulo
+        varchar accion
+    }
+
+    rol_permiso {
+        bigint id_rol_permiso PK
+        bigint id_rol FK
+        bigint id_permiso FK
+    }
+
+    usuario_rol {
+        bigint id_usuario_rol PK
+        bigint id_usuario FK
+        bigint id_rol FK
+        timestamp fecha_asignacion
+        timestamp fecha_expiracion
+    }
+
+    dispositivo_usuario {
+        bigint id_dispositivo_usuario PK
+        bigint id_usuario FK
+        varchar nombre_dispositivo
+        varchar sistema_operativo
+        varchar huella_dispositivo
+        boolean es_confiable
+        timestamp ultimo_acceso
+    }
+
+    sesion_usuario {
+        bigint id_sesion_usuario PK
+        bigint id_usuario FK
+        bigint id_dispositivo_usuario FK
+        varchar hash_token UK
+        varchar ip_origen
+        varchar agente_usuario
+        timestamp fecha_inicio
+        timestamp fecha_expiracion
+        timestamp fecha_cierre
+    }
+
+    bitacora_acceso {
+        bigint id_bitacora_acceso PK
+        bigint id_usuario FK "NULLable"
+        bigint id_sesion_usuario FK "NULLable"
+        varchar correo_intentado
+        varchar ip_origen
+        varchar resultado
+        varchar motivo_fallo
+        timestamp fecha_evento
+    }
+
+    bloqueo_cuenta {
+        bigint id_bloqueo_cuenta PK
+        bigint id_usuario FK
+        varchar tipo_bloqueo
+        varchar motivo
+        timestamp fecha_inicio
+        timestamp fecha_desbloqueo
+    }
+
+    token_recuperacion {
+        bigint id_token_recuperacion PK
+        bigint id_usuario FK
+        varchar hash_token UK
+        timestamp fecha_expiracion
+        timestamp fecha_uso
+    }
+
+    metodo_2fa {
+        bigint id_metodo_2fa PK
+        bigint id_usuario FK
+        varchar tipo_metodo
+        varchar secreto_cifrado
+        boolean confirmado
+        timestamp fecha_activacion
+    }
+
+    codigo_respaldo_2fa {
+        bigint id_codigo_respaldo_2fa PK
+        bigint id_metodo_2fa FK
+        varchar hash_codigo
+        boolean usado
+        timestamp fecha_uso
+    }
+
+    idioma {
+        bigint id_idioma PK
+        varchar codigo_iso UK
+        varchar nombre_idioma
+    }
+
+    preferencia_usuario {
+        bigint id_preferencia_usuario PK
+        bigint id_usuario FK "UK (1:1)"
+        bigint id_idioma FK
+        varchar zona_horaria
+        varchar tema_visual
+        varchar visibilidad_perfil
+    }
+
+    version_aviso_privacidad {
+        bigint id_version_aviso_privacidad PK
+        varchar numero_version UK
+        text contenido_legal
+        date fecha_vigencia
+        boolean es_vigente
+    }
+
+    consentimiento_privacidad {
+        bigint id_consentimiento_privacidad PK
+        bigint id_usuario FK
+        bigint id_version_aviso_privacidad FK
+        timestamp fecha_aceptacion
+        varchar ip_aceptacion
+    }
+
+    tipo_solicitud_arco {
+        bigint id_tipo_solicitud_arco PK
+        varchar codigo_arco UK
+        varchar nombre_tipo
+        int plazo_dias_habiles
+    }
+
+    solicitud_arco {
+        bigint id_solicitud_arco PK
+        bigint id_usuario FK
+        bigint id_tipo_solicitud_arco FK
+        varchar folio UK
+        varchar estado_solicitud
+        text detalle_solicitud
+        text resolucion
+        timestamp fecha_solicitud
+        timestamp fecha_resolucion
+    }
+
+    %% Relaciones A1 - A5
+    usuario ||--|| perfil_usuario : "tiene perfil"
+    usuario ||--|| credencial_usuario : "posee credencial"
+    usuario ||--o{ historial_credencial : "conserva hashes"
+    rol ||--o| politica_contrasena : "rige seguridad"
+    rol ||--o{ rol_permiso : "agrupa"
+    permiso ||--o{ rol_permiso : "concede"
+    usuario ||--o{ usuario_rol : "asigna"
+    rol ||--o{ usuario_rol : "otorga"
+    usuario ||--o{ dispositivo_usuario : "registra"
+    usuario ||--o{ sesion_usuario : "inicia"
+    dispositivo_usuario ||--o{ sesion_usuario : "aloja"
+    usuario |o--o{ bitacora_acceso : "registra intento"
+    sesion_usuario |o--o{ bitacora_acceso : "origina"
+    usuario ||--o{ bloqueo_cuenta : "sufre"
+    usuario ||--o{ token_recuperacion : "genera"
+    usuario ||--o{ metodo_2fa : "configura"
+    metodo_2fa ||--o{ codigo_respaldo_2fa : "respalda"
+    usuario ||--|| preferencia_usuario : "define"
+    idioma ||--o{ preferencia_usuario : "selecciona"
+    usuario ||--o{ consentimiento_privacidad : "otorga"
+    version_aviso_privacidad ||--o{ consentimiento_privacidad : "versiona"
+    usuario ||--o{ solicitud_arco : "tramita"
+    tipo_solicitud_arco ||--o{ solicitud_arco : "clasifica"

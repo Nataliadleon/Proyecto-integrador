@@ -1,0 +1,174 @@
+erDiagram
+    %% =========================================================================
+    %% ER04: ESTUDIANTE B — SUBMÓDULOS B4 a B6 (16 Tablas)
+    %% Metas y Hábitos, Recordatorios y Notificaciones, Logros y Niveles
+    %% =========================================================================
+
+    usuario {
+        bigint id_usuario PK "Ref A1"
+    }
+
+    sesion_lectura {
+        bigint id_sesion_lectura PK "Ref B1"
+    }
+
+    tipo_meta {
+        bigint id_tipo_meta PK
+        varchar codigo_tipo UK
+        varchar nombre_tipo
+        varchar unidad_medida
+    }
+
+    meta_lectura {
+        bigint id_meta_lectura PK
+        bigint id_usuario FK
+        bigint id_tipo_meta FK
+        varchar titulo_meta
+        int valor_objetivo
+        date fecha_inicio
+        date fecha_fin
+        varchar estado_meta
+    }
+
+    progreso_meta {
+        bigint id_progreso_meta PK
+        bigint id_meta_lectura FK
+        int valor_acumulado
+        decimal porcentaje_cumplimiento
+        date fecha_corte
+    }
+
+    habito_lectura {
+        bigint id_habito_lectura PK
+        bigint id_usuario FK
+        varchar nombre_habito
+        int minutos_objetivo_diario
+        date fecha_inicio
+        boolean activo_habito
+    }
+
+    habito_programacion {
+        bigint id_habito_programacion PK
+        bigint id_habito_lectura FK
+        int dia_semana
+        time hora_programada
+    }
+
+    registro_habito {
+        bigint id_registro_habito PK
+        bigint id_habito_lectura FK
+        bigint id_sesion_lectura FK "NULLable"
+        date fecha_cumplimiento
+        int minutos_registrados
+        boolean cumplido
+    }
+
+    racha_lectura {
+        bigint id_racha_lectura PK
+        bigint id_habito_lectura FK
+        date fecha_inicio_racha
+        date fecha_fin_racha
+        int dias_consecutivos
+        boolean es_racha_actual
+    }
+
+    canal_notificacion {
+        bigint id_canal_notificacion PK
+        varchar codigo_canal UK
+        varchar nombre_canal
+    }
+
+    tipo_evento_notificacion {
+        bigint id_tipo_evento_notificacion PK
+        varchar codigo_evento UK
+        varchar nombre_evento
+    }
+
+    recordatorio {
+        bigint id_recordatorio PK
+        bigint id_habito_lectura FK "NULLable (CHECK)"
+        bigint id_meta_lectura FK "NULLable (CHECK)"
+        bigint id_canal_notificacion FK
+        time hora_recordatorio
+        varchar frecuencia
+        boolean activo_recordatorio
+    }
+
+    preferencia_notificacion {
+        bigint id_preferencia_notificacion PK
+        bigint id_usuario FK
+        bigint id_canal_notificacion FK
+        bigint id_tipo_evento_notificacion FK
+        boolean habilitado
+    }
+
+    notificacion {
+        bigint id_notificacion PK
+        bigint id_usuario FK
+        bigint id_tipo_evento_notificacion FK
+        bigint id_canal_notificacion FK
+        varchar titulo
+        text mensaje
+        boolean leida
+        timestamp fecha_envio
+        timestamp fecha_lectura
+    }
+
+    logro {
+        bigint id_logro PK
+        varchar codigo_logro UK
+        varchar nombre_logro
+        varchar criterio_obtencion
+        int puntos_recompensa
+        varchar icono_url
+    }
+
+    logro_usuario {
+        bigint id_logro_usuario PK
+        bigint id_logro FK
+        bigint id_usuario FK
+        timestamp fecha_obtencion
+    }
+
+    nivel_lector {
+        bigint id_nivel_lector PK
+        int numero_nivel UK
+        varchar nombre_nivel UK
+        int puntos_minimos
+        int puntos_maximos
+    }
+
+    movimiento_puntos {
+        bigint id_movimiento_puntos PK
+        bigint id_usuario FK
+        bigint id_logro FK "NULLable"
+        varchar tipo_movimiento
+        int cantidad_puntos
+        varchar motivo
+        timestamp fecha_movimiento
+    }
+
+    %% Relaciones B4 - B6
+    usuario ||--o{ meta_lectura : "establece"
+    tipo_meta ||--o{ meta_lectura : "tipifica"
+    meta_lectura ||--o{ progreso_meta : "registra corte"
+    usuario ||--o{ habito_lectura : "crea habito"
+    habito_lectura ||--o{ habito_programacion : "programa horario"
+    habito_lectura ||--o{ registro_habito : "cumple diario"
+    sesion_lectura |o--o{ registro_habito : "respalda"
+    habito_lectura ||--o{ racha_lectura : "mantiene racha"
+
+    habito_lectura |o--o{ recordatorio : "recuerda habito"
+    meta_lectura |o--o{ recordatorio : "recuerda meta"
+    canal_notificacion ||--o{ recordatorio : "envia por"
+    usuario ||--o{ preferencia_notificacion : "configura"
+    canal_notificacion ||--o{ preferencia_notificacion : "usa canal"
+    tipo_evento_notificacion ||--o{ preferencia_notificacion : "filtra evento"
+    usuario ||--o{ notificacion : "recibe"
+    tipo_evento_notificacion ||--o{ notificacion : "clasifica"
+    canal_notificacion ||--o{ notificacion : "despacha por"
+
+    logro ||--o{ logro_usuario : "otorga"
+    usuario ||--o{ logro_usuario : "desbloquea"
+    usuario ||--o{ movimiento_puntos : "acumula"
+    logro |o--o{ movimiento_puntos : "bonifica"

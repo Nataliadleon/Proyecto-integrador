@@ -1,0 +1,180 @@
+erDiagram
+    %% =========================================================================
+    %% ER03: ESTUDIANTE B — SUBMÓDULOS B1 a B3 (16 Tablas)
+    %% Sesiones de Lectura y Cronómetro, Notas y Citas, Reseñas y Calificaciones
+    %% =========================================================================
+
+    usuario {
+        bigint id_usuario PK "Ref A1"
+    }
+
+    dispositivo_usuario {
+        bigint id_dispositivo_usuario PK "Ref A4"
+    }
+
+    ejemplar_usuario {
+        bigint id_ejemplar_usuario PK "Ref A7"
+    }
+
+    etiqueta {
+        bigint id_etiqueta PK "Ref A7"
+    }
+
+    ciclo_lectura {
+        bigint id_ciclo_lectura PK
+        bigint id_ejemplar_usuario FK
+        int numero_lectura
+        date fecha_inicio
+        date fecha_fin
+        varchar estado_ciclo
+    }
+
+    lugar_lectura {
+        bigint id_lugar_lectura PK
+        bigint id_usuario FK
+        varchar nombre_lugar
+        varchar tipo_ambiente
+    }
+
+    sesion_lectura {
+        bigint id_sesion_lectura PK
+        bigint id_ciclo_lectura FK
+        bigint id_lugar_lectura FK "NULLable"
+        bigint id_dispositivo_usuario FK "NULLable"
+        timestamp fecha_inicio
+        timestamp fecha_fin
+        int pagina_inicio
+        int pagina_fin
+        int minutos_netos
+        decimal paginas_por_minuto
+    }
+
+    pausa_sesion_lectura {
+        bigint id_pausa_sesion_lectura PK
+        bigint id_sesion_lectura FK
+        timestamp hora_inicio_pausa
+        timestamp hora_fin_pausa
+        int segundos_pausa
+    }
+
+    progreso_lectura {
+        bigint id_progreso_lectura PK
+        bigint id_ciclo_lectura FK
+        bigint id_sesion_lectura FK "NULLable"
+        int pagina_actual
+        decimal porcentaje_avance
+        timestamp fecha_registro
+    }
+
+    tipo_nota {
+        bigint id_tipo_nota PK
+        varchar codigo_tipo UK
+        varchar nombre_tipo
+    }
+
+    nota {
+        bigint id_nota PK
+        bigint id_ciclo_lectura FK
+        bigint id_tipo_nota FK
+        varchar titulo_nota
+        text contenido
+        int numero_pagina
+        varchar capitulo
+        boolean es_privada
+    }
+
+    cita {
+        bigint id_cita PK
+        bigint id_ciclo_lectura FK
+        text texto_cita
+        int numero_pagina
+        varchar comentario_personal
+        boolean es_favorita
+    }
+
+    nota_etiqueta {
+        bigint id_nota_etiqueta PK
+        bigint id_nota FK
+        bigint id_etiqueta FK
+    }
+
+    adjunto_nota {
+        bigint id_adjunto_nota PK
+        bigint id_nota FK
+        varchar nombre_archivo
+        varchar tipo_mime
+        varchar ruta_archivo
+        bigint tamano_bytes
+    }
+
+    resena {
+        bigint id_resena PK
+        bigint id_ciclo_lectura FK
+        varchar titulo_resena
+        text contenido_resena
+        boolean contiene_spoilers
+        varchar visibilidad
+        timestamp fecha_publicacion
+    }
+
+    calificacion {
+        bigint id_calificacion PK
+        bigint id_ciclo_lectura FK "UK (1:1)"
+        decimal puntaje_global
+        timestamp fecha_calificacion
+    }
+
+    criterio_calificacion {
+        bigint id_criterio_calificacion PK
+        varchar codigo_criterio UK
+        varchar nombre_criterio
+    }
+
+    calificacion_criterio {
+        bigint id_calificacion_criterio PK
+        bigint id_calificacion FK
+        bigint id_criterio_calificacion FK
+        decimal puntaje_criterio
+    }
+
+    resena_reaccion {
+        bigint id_resena_reaccion PK
+        bigint id_resena FK
+        bigint id_usuario FK
+        varchar tipo_reaccion
+        timestamp fecha_reaccion
+    }
+
+    resena_comentario {
+        bigint id_resena_comentario PK
+        bigint id_resena FK
+        bigint id_usuario FK
+        text contenido_comentario
+        timestamp fecha_comentario
+    }
+
+    %% Relaciones B1 - B3 (incluye FKs cruzadas hacia A)
+    ejemplar_usuario ||--o{ ciclo_lectura : "registra lectura"
+    usuario ||--o{ lugar_lectura : "define lugar"
+    ciclo_lectura ||--o{ sesion_lectura : "cronometra"
+    lugar_lectura |o--o{ sesion_lectura : "ocurre en"
+    dispositivo_usuario |o--o{ sesion_lectura : "usa dispositivo"
+    sesion_lectura ||--o{ pausa_sesion_lectura : "contiene pausas"
+    ciclo_lectura ||--o{ progreso_lectura : "registra avance"
+    sesion_lectura |o--o{ progreso_lectura : "genera punto"
+
+    ciclo_lectura ||--o{ nota : "tiene notas"
+    tipo_nota ||--o{ nota : "clasifica"
+    ciclo_lectura ||--o{ cita : "extrae citas"
+    nota ||--o{ nota_etiqueta : "etiqueta"
+    etiqueta ||--o{ nota_etiqueta : "aplica a nota"
+    nota ||--o{ adjunto_nota : "adjunta"
+
+    ciclo_lectura ||--o{ resena : "publica"
+    ciclo_lectura ||--o| calificacion : "evalua"
+    calificacion ||--o{ calificacion_criterio : "desglosa"
+    criterio_calificacion ||--o{ calificacion_criterio : "pondera"
+    resena ||--o{ resena_reaccion : "recibe"
+    usuario ||--o{ resena_reaccion : "reacciona"
+    resena ||--o{ resena_comentario : "recibe"
+    usuario ||--o{ resena_comentario : "comenta"

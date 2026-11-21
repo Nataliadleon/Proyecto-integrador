@@ -1,0 +1,80 @@
+flowchart TD
+    %% =========================================================================
+    %% ER00: MAPA GENERAL DE DOMINIOS Y JERARQUÍAS E-R EXTENDIDO (BOOK TRACKER)
+    %% 100 Tablas (50 Estudiante A / 50 Estudiante B) | 18 Submódulos | 132 FKs
+    %% =========================================================================
+
+    Base["«Superclase Abstracta»<br/>EntidadBase (9 atributos de auditoría + estatus ACTIVO/INACTIVO)"]:::base
+
+    subgraph EstA["ESTUDIANTE A — SEGURIDAD, PRIVACIDAD Y BIBLIOTECA (50 Tablas)"]
+        direction TB
+        A1["A1. Cuentas y Credenciales (5)<br/>usuario, perfil_usuario, credencial_usuario,<br/>historial_credencial, politica_contrasena"]:::modA
+        A2["A2. Roles y Permisos RBAC (4)<br/>rol, permiso, rol_permiso, usuario_rol"]:::modA
+        A3["A3. Sesiones y Auditoría Acceso (4)<br/>sesion_usuario, bitacora_acceso,<br/>bloqueo_cuenta, token_recuperacion"]:::modA
+        A4["A4. Segundo Factor y Dispositivos (3)<br/>metodo_2fa, codigo_respaldo_2fa,<br/>dispositivo_usuario"]:::modA
+        A5["A5. Preferencias, Privacidad y ARCO (6)<br/>idioma, preferencia_usuario, version_aviso_privacidad,<br/>consentimiento_privacidad, tipo_solicitud_arco, solicitud_arco"]:::modA
+        A6["A6. Catálogo Bibliográfico (11)<br/>autor, editorial, libro, tipo_colaborador, libro_autor,<br/>formato_libro, edicion, genero (recursiva), libro_genero, serie_libro, libro_serie"]:::modA
+        A7["A7. Biblioteca Personal (8)<br/>estado_lectura, ejemplar_usuario, etiqueta, etiqueta_ejemplar,<br/>estante, estante_ejemplar, coleccion, coleccion_ejemplar"]:::modA
+        A8["A8. Copias, Adquisiciones y Wishlist (7)<br/>copia_fisica, archivo_digital, suscripcion_lectura,<br/>ubicacion_fisica, wishlist_item, fuente_adquisicion, adquisicion"]:::modA
+        A9["A9. Importación de Biblioteca (2)<br/>importacion_biblioteca, detalle_importacion"]:::modA
+    end
+
+    subgraph EstB["ESTUDIANTE B — LECTURA, HÁBITOS, GAMIFICACIÓN Y SOCIAL (50 Tablas)"]
+        direction TB
+        B1["B1. Sesiones de Lectura y Cronómetro (5)<br/>ciclo_lectura, sesion_lectura, pausa_sesion_lectura,<br/>progreso_lectura, lugar_lectura"]:::modB
+        B2["B2. Notas y Citas (5)<br/>tipo_nota, nota, cita,<br/>nota_etiqueta, adjunto_nota"]:::modB
+        B3["B3. Reseñas y Calificaciones (6)<br/>resena, calificacion, criterio_calificacion,<br/>calificacion_criterio, resena_reaccion, resena_comentario"]:::modB
+        B4["B4. Metas y Hábitos (7)<br/>tipo_meta, meta_lectura, progreso_meta, habito_lectura,<br/>habito_programacion, registro_habito, racha_lectura"]:::modB
+        B5["B5. Recordatorios y Notificaciones (5)<br/>recordatorio, canal_notificacion, tipo_evento_notificacion,<br/>preferencia_notificacion, notificacion"]:::modB
+        B6["B6. Logros y Niveles (4)<br/>logro, logro_usuario,<br/>nivel_lector, movimiento_puntos"]:::modB
+        B7["B7. Estadísticas y Reportes (3)<br/>estadistica_diaria, estadistica_mensual,<br/>reporte_generado"]:::modB
+        B8["B8. Clubes de Lectura y Social (11)<br/>club_lectura, rol_club, miembro_club, libro_club, reunion_club,<br/>asistencia_reunion, mensaje_club, seguimiento_usuario,<br/>reto_lectura, participante_reto, recomendacion_libro"]:::modB
+        B9["B9. Auditoría, Sincronización y Portabilidad (4)<br/>auditoria_transaccion, auditoria_detalle_cambio,<br/>sincronizacion_dispositivo, exportacion_datos"]:::modB
+    end
+
+    subgraph Jerarquias["JERARQUÍA EER DE ESPECIALIZACIÓN (ISA)"]
+        direction TB
+        SupEj["ejemplar_usuario (Superclase)"]:::jer
+        Disj(("d"))
+        SubFis["copia_fisica (Subclase Física)"]:::jer
+        SubDig["archivo_digital (Subclase Digital)"]:::jer
+        SupEj --- Disj
+        Disj --> SubFis
+        Disj --> SubDig
+    end
+
+    %% Herencia abstracta
+    Base -.->|"Heredan 50 tablas"| EstA
+    Base -.->|"Heredan 50 tablas"| EstB
+
+    %% Relaciones internas A
+    A1 --> A2
+    A1 --> A3
+    A1 --> A4
+    A1 --> A5
+    A6 --> A7
+    A7 --> A8
+    A7 --> A9
+    A4 --> A3
+
+    %% Relaciones cruzadas clave A <-> B (29 FKs)
+    A7 ==>|"ejemplar_usuario → ciclo_lectura"| B1
+    A4 ==>|"dispositivo_usuario → sesion_lectura / sync"| B1
+    A4 ==>|"dispositivo_usuario → sincronizacion_dispositivo"| B9
+    A7 ==>|"etiqueta → nota_etiqueta"| B2
+    A6 ==>|"libro → libro_club / recomendacion_libro"| B8
+    A1 ==>|"usuario → 14 tablas en B1..B9"| B4
+    A1 ==>|"usuario → clubes, social y auditoría"| B8
+    A1 ==>|"usuario → auditoria_transaccion / exportacion"| B9
+
+    %% Relaciones internas B
+    B1 --> B2
+    B1 --> B3
+    B1 --> B4
+    B4 --> B5
+    B6 --> B7
+
+    classDef base fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#78350F,font-weight:bold
+    classDef modA fill:#DBEAFE,stroke:#1D4ED8,stroke-width:1.5px,color:#1E3A8A
+    classDef modB fill:#DCFCE7,stroke:#15803D,stroke-width:1.5px,color:#14532D
+    classDef jer fill:#F3E8FF,stroke:#7E22CE,stroke-width:1.5px,color:#581C87,font-weight:bold

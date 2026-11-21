@@ -2,7 +2,6 @@
 
 > **Asignatura:** IFE-1005 — Análisis y Modelado de Sistemas de Información  
 > **Proyecto:** *Book Tracker* — Plataforma Integral de Gestión de Lectura  
-> **Estado de Entrega:** 100% Completado | Calificación Proyectada: **Excelente (100%)**
 
 ---
 
@@ -12,7 +11,6 @@ Esta fase formaliza la ingeniería de software de *Book Tracker* bajo el paradig
 
 ---
 
-## 📊 Matriz de Evaluación y Cumplimiento de Rúbrica
 
 | Criterio y Ponderación | Lo que se Califica (Rúbrica Oficial) | Lo que Tenemos (Entregables y Contenido) | Notas y Estado |
 | :--- | :--- | :--- | :---: |
