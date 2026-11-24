@@ -42,9 +42,9 @@ El avance del proyecto se rige por las 4 fases establecidas en el programa acad�
 
 ```mermaid
 flowchart TD
-    F1["FASE 1: FUNDAMENTACIÓN (Completada)<br/>Diagnóstico contextual, delimitación del problema y matriz de distribución 50/50 tablas."] --> F2["FASE 2: ANÁLISIS Y MODELADO - AMSI (En Curso)<br/>Ingeniería de Requisitos, Casos de Uso, Secuencia Criptográfica, Clases y Despliegue."]
-    F2 --> F3["FASE 3: DISEÑO TÉCNICO - FBD + REDES (Planificada)<br/>E-R Extendido, Relacional BCNF, Diseño LAN jerárquico, SITE y VLSM."]
-    F3 --> F4["FASE 4: EJECUCIÓN TÉCNICA Y LEGAL - TODAS (Planificada)<br/>Scripts Multi-SGBD, Packet Tracer con Port Security, Aviso de Privacidad y Delitos."]
+    F1["FASE 1: FUNDAMENTACIÓN (Completada)<br/>Diagnóstico contextual, delimitación del problema y matriz de distribución 50/50 tablas."] --> F2["FASE 2: ANÁLISIS Y MODELADO - AMSI (Completada)<br/>Ingeniería de Requisitos, Casos de Uso, Secuencia Criptográfica, Clases y Despliegue."]
+    F2 --> F3["FASE 3: DISEÑO Y EJECUCIÓN FBD (Completada) + REDES (Siguiente)<br/>E-R Extendido, BCNF, Diccionario 100 Tablas, Multi-SGBD y Álgebra Relacional."]
+    F3 --> F4["FASE 4: REDES DE COMPUTADORAS Y LEGISLACIÓN (TLI)<br/>VLSM, SITE, Packet Tracer con Port Security, Aviso de Privacidad, INDAUTOR y Delitos."]
 ```
 
 ### Detalle de las Etapas Hasta Ahora:
@@ -54,14 +54,16 @@ flowchart TD
    * Justificación técnica, operativa y económica.
    * Matriz de deslinde y distribución equitativa de las **100 tablas** (50 Estudiante A / 50 Estudiante B).
    * Verificación de la proporción requerida por la rúbrica (< 25% catálogos simples y $\ge$ 75% tablas transaccionales/intermedias/maestras/bitácoras).
-2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):**
-   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1_Ingenieria_de_Requisitos.pdf](./AMSI/1.
-   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.pdf](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.pdf) 
-   * Políticas de seguridad en tránsito (TLS 1.3), almacenamiento criptográfico (`bcrypt`/`Argon2`) y auditoría permanente (borrado lógico).
-   * Diagrama General de Clases, Componentes, Despliegue y Prototipos Google Stitch disponible en [1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf](./AMSI/1.4%20Diagrama%20General%20de%20Clases,%20Componentes,%20Despliegue%20y%20Prototipos.pdf) 
-3. **[Fase 3: Fundamentos de Base de Datos (FBD)](./FBD/README.md):**
-   * Modelado Conceptual E-R Extendido y Lógico Relacional (100 tablas y 132 FKs) en [2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md](./FBD/2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md).
-   * Magnitud, Estructura y Memoria Formal de Normalización (1FN → BCNF) en [2.2_Normalizacion_1FN_a_BCNF.pdf](./FBD/2.2_Normalizacion_1FN_a_BCNF.pdf) 
+2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):** *(Completada 100%)*
+   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1_Ingenieria_de_Requisitos.pdf](./AMSI/1.1_Ingenieria_de_Requisitos.pdf).
+   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.pdf](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.pdf).
+   * Modelado de Interacción y Secuencia Criptográfica disponible en [1.3 Modelado de Interacción y Secuencia Criptográfica.pdf](./AMSI/1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.pdf).
+   * Diagrama General de Clases, Componentes, Despliegue y Prototipos Google Stitch disponible en [1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf](./AMSI/1.4%20Diagrama%20General%20de%20Clases,%20Componentes,%20Despliegue%20y%20Prototipos.pdf).
+3. **[Fase 3: Fundamentos de Base de Datos (FBD)](./FBD/README.md):** *(Completada 100%)*
+   * Modelado Conceptual E-R Extendido y Lógico Relacional (100 tablas y 132 FKs de negocio) en [2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md](./FBD/2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md).
+   * Magnitud, Estructura y Memoria Formal de Normalización (1FN → BCNF) en [2.2_Normalizacion_1FN_a_BCNF.pdf](./FBD/2.2_Normalizacion_1FN_a_BCNF.pdf).
+   * Diccionario de Datos Exhaustivo (100 tablas, 1,339 campos, deslinde 50/50) en [2.3_Diccionario_de_Datos_100_Tablas.xlsx](./FBD/2.3_Diccionario_de_Datos_100_Tablas.xlsx).
+   * Álgebra Relacional Formal (10 consultas), Scripts Multi-SGBD (SQL Server 2022 + PostgreSQL 16) y Arquitectura *Hot-Swap* en [2.4_Algebra_Relacional_y_Consultas_SQL.md](./FBD/2.4_Algebra_Relacional_y_Consultas_SQL.md) y [2.4_Comparativa_MultiSGBD_y_HotSwap.md](./FBD/2.4_Comparativa_MultiSGBD_y_HotSwap.md).
 
 ---
 

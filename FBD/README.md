@@ -13,7 +13,7 @@
 | **2.1 Modelado Conceptual E-R y Lógico Relacional**<br>`(20%)` | • Diagrama E-R Extendido completo (jerarquías, cardinalidades, atributos compuestos/multivaluados).<br>• Conversión rigurosa al Modelo Relacional con PKs, FKs y restricciones de integridad. | • [2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md](./2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md)<br>• Diagrama Maestro Consolidado (100 tablas): [PNG](./diagramas/png/ER_General_Completo_100_Tablas.png) · [SVG](./diagramas/ER_General_Completo_100_Tablas.svg) · [MMD](./diagramas/mmd/ER_General_Completo_100_Tablas.mmd)<br>• 5 Diagramas Modulares en PNG (`ER01` a `ER05`). | **Completado** |
 | **2.2 Magnitud, Estructura y Normalización**<br>`(30%)` | • 50 tablas por integrante (100 en total).<br>• Catálogos simples $\le 25\%$ y tablas complejas $\ge 75\%$.<br>• Memoria formal demostrativa de 1FN → 2FN → 3FN → BCNF. | • 📄 [2.2_Normalizacion_1FN_a_BCNF.pdf](./2.2_Normalizacion_1FN_a_BCNF.pdf) *(Documento oficial)*<br>• 📝 [2.2_Normalizacion_1FN_a_BCNF.md](./2.2_Normalizacion_1FN_a_BCNF.md)| **Completado** |
 | **2.3 Diccionario de Datos y Asignación Equitativa**<br>`(15%)` | • Diccionario exhaustivo de las 100 tablas con autoría (50/50), tipos, tamaño, nulabilidad, PK/FK/CHECK/UNIQUE y descripción semántica. | • 📊 [2.3_Diccionario_de_Datos_100_Tablas.xlsx](./2.3_Diccionario_de_Datos_100_Tablas.xlsx) *(Libro oficial · 103 hojas)*<br>• 📝 [2.3_Diccionario_de_Datos_y_Asignacion_Equitativa.md](./2.3_Diccionario_de_Datos_y_Asignacion_Equitativa.md) | **Completado** |
-| **2.4 Implementación Multi-SGBD, Álgebra Relacional y SQL**<br>`(35%)` | • Scripts DDL y DML 100% ejecutables en SQL Server y PostgreSQL.<br>• Contraseñas hasheadas (`Argon2id`/`bcrypt`).<br>• Álgebra Relacional básica y extendida + SQL equivalente. | • `scripts/sqlserver/` y `scripts/postgresql/` *(Pendiente)*<br>• `2.4_Algebra_Relacional_y_Consultas_SQL.md` *(Pendiente)* | **Siguiente** |
+| **2.4 Implementación Multi-SGBD, Álgebra Relacional y SQL**<br>`(35%)` | • Scripts DDL y DML 100% ejecutables en SQL Server y PostgreSQL.<br>• Contraseñas hasheadas (`Argon2id`/`bcrypt`).<br>• Álgebra Relacional básica y extendida + SQL equivalente. | • 📝 [2.4_Algebra_Relacional_y_Consultas_SQL.md](./2.4_Algebra_Relacional_y_Consultas_SQL.md) *(10 expresiones AR + SQL)*<br>• 📝 [2.4_Comparativa_MultiSGBD_y_HotSwap.md](./2.4_Comparativa_MultiSGBD_y_HotSwap.md) *(Portabilidad y Hot-Swap)*<br>• 💾 [scripts/sqlserver/](./scripts/sqlserver/) · [scripts/postgresql/](./scripts/postgresql/) · [scripts/hotswap/](./scripts/hotswap/) | **Completado** |
 
 ---
 
@@ -27,6 +27,12 @@ FBD/
 ├── 📄 2.2_Normalizacion_1FN_a_BCNF.pdf                   # Memoria formal de normalización y auditoría BCNF
 ├── 📊 2.3_Diccionario_de_Datos_100_Tablas.xlsx           # Diccionario exhaustivo de las 100 tablas (103 hojas, 50/50)
 ├── 📄 2.3_Diccionario_de_Datos_y_Asignacion_Equitativa.md # Resumen ejecutivo y contexto del criterio 2.3
+├── 📄 2.4_Algebra_Relacional_y_Consultas_SQL.md          # 10 consultas formales en Álgebra Relacional y SQL
+├── 📄 2.4_Comparativa_MultiSGBD_y_HotSwap.md             # Comparativa T-SQL vs PostgreSQL y protocolo Hot-Swap
+├── 📁 scripts/
+│   ├── 📁 sqlserver/                                     # DDL, DML (1,854 filas), 10 consultas AR y pruebas cripto
+│   ├── 📁 postgresql/                                    # DDL, DML (1,854 filas), 10 consultas AR y pruebas pgcrypto
+│   └── 📁 hotswap/                                       # hotswap_config.json, contrato y hotswap_manager.ps1
 └── 📁 diagramas/
     ├── ER_General_Completo_100_Tablas.svg                # Diagrama Maestro E-R Vectorial (100 tablas + 132 FKs)
     ├── 📁 mmd/                                           # Código fuente Mermaid (.mmd)

@@ -1,0 +1,49 @@
+{
+    "project":  "Book Tracker",
+    "schema_version":  "2.4.0",
+    "tables_count":  100,
+    "active_engine":  "postgresql",
+    "failover_policy":  {
+                            "auto_fallback":  false,
+                            "require_parity_check":  true,
+                            "soft_delete_only":  true
+                        },
+    "engines":  {
+                    "sqlserver":  {
+                                      "display_name":  "Microsoft SQL Server 2022",
+                                      "driver":  "ODBC Driver 18 for SQL Server",
+                                      "cli_tool":  "sqlcmd",
+                                      "host":  "localhost",
+                                      "port":  1433,
+                                      "database":  "book_tracker",
+                                      "schema":  "dbo",
+                                      "auth_mode":  "trusted_or_env",
+                                      "env_user":  "BT_SQLSERVER_USER",
+                                      "env_password":  "BT_SQLSERVER_PASSWORD",
+                                      "scripts":  {
+                                                      "ddl":  "FBD/scripts/sqlserver/01_ddl_book_tracker_sqlserver.sql",
+                                                      "dml":  "FBD/scripts/sqlserver/02_dml_datos_muestra_sqlserver.sql",
+                                                      "queries":  "FBD/scripts/sqlserver/03_consultas_algebra_relacional_sqlserver.sql",
+                                                      "verify":  "FBD/scripts/sqlserver/04_pruebas_criptografia_y_verificacion_sqlserver.sql"
+                                                  }
+                                  },
+                    "postgresql":  {
+                                       "display_name":  "PostgreSQL 16",
+                                       "driver":  "Npgsql / libpq",
+                                       "cli_tool":  "psql",
+                                       "host":  "localhost",
+                                       "port":  5432,
+                                       "database":  "book_tracker",
+                                       "schema":  "public",
+                                       "auth_mode":  "env_pgpassword",
+                                       "env_user":  "PGUSER",
+                                       "env_password":  "PGPASSWORD",
+                                       "scripts":  {
+                                                       "ddl":  "FBD/scripts/postgresql/01_ddl_book_tracker_postgresql.sql",
+                                                       "dml":  "FBD/scripts/postgresql/02_dml_datos_muestra_postgresql.sql",
+                                                       "queries":  "FBD/scripts/postgresql/03_consultas_algebra_relacional_postgresql.sql",
+                                                       "verify":  "FBD/scripts/postgresql/04_pruebas_criptografia_y_verificacion_postgresql.sql"
+                                                   }
+                                   }
+                }
+}

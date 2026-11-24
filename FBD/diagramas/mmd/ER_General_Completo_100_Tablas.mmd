@@ -1,4 +1,4 @@
-﻿erDiagram
+erDiagram
     %% =========================================================================
     %% DIAGRAMA ENTIDAD-RELACIÓN GENERAL CONSOLIDADO (BOOK TRACKER)
     %% 100 Tablas (50 Estudiante A / 50 Estudiante B) | 132 Relaciones FK Activas
@@ -201,7 +201,9 @@
 
     autor {
         bigint id_autor PK
-        varchar nombre_completo
+        varchar nombre
+        varchar apellido_paterno
+        varchar apellido_materno
         varchar pais_origen
         int anio_nacimiento
         text biografia
