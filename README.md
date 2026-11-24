@@ -55,45 +55,13 @@ flowchart TD
    * Matriz de deslinde y distribución equitativa de las **100 tablas** (50 Estudiante A / 50 Estudiante B).
    * Verificación de la proporción requerida por la rúbrica (< 25% catálogos simples y $\ge$ 75% tablas transaccionales/intermedias/maestras/bitácoras).
 2. **[Fase 2: Análisis y Modelado (AMSI)](./AMSI/README.md):**
-   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1_Ingenieria_de_Requisitos.pdf](./AMSI/1.1_Ingenieria_de_Requisitos.pdf) (y su versión editable [.docx](./AMSI/1.1_Ingenieria_de_Requisitos.docx)).
-   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.md](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.md) (y su versión editable [.docx](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.docx)).
+   * Catálogo codificado de Requisitos Funcionales (`RF-A-xx` / `RF-B-xx`) y No Funcionales (`RNF-A-xx` / `RNF-B-xx`) disponible en [1.1_Ingenieria_de_Requisitos.pdf](./AMSI/1.
+   * Modelado de Casos de Uso del negocio y del sistema con correcta sintaxis UML y especificación formal de Login disponible en [1.2 Modelado del Negocio y Casos de Uso.pdf](./AMSI/1.2%20Modelado%20del%20Negocio%20y%20Casos%20de%20Uso.pdf) 
    * Políticas de seguridad en tránsito (TLS 1.3), almacenamiento criptográfico (`bcrypt`/`Argon2`) y auditoría permanente (borrado lógico).
-   * Modelado de interacción y secuencias criptográficas/transaccionales en 4 capas disponible en [1.3 Modelado de Interacción y Secuencia Criptográfica.md](./AMSI/1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.md) (y su versión editable [.docx](./AMSI/1.3%20Modelado%20de%20Interacci%C3%B3n%20y%20Secuencia%20Criptogr%C3%A1fica.docx)).
+   * Diagrama General de Clases, Componentes, Despliegue y Prototipos Google Stitch disponible en [1.4 Diagrama General de Clases, Componentes, Despliegue y Prototipos.pdf](./AMSI/1.4%20Diagrama%20General%20de%20Clases,%20Componentes,%20Despliegue%20y%20Prototipos.pdf) 
+3. **[Fase 3: Fundamentos de Base de Datos (FBD)](./FBD/README.md):**
+   * Modelado Conceptual E-R Extendido y Lógico Relacional (100 tablas y 132 FKs) en [2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md](./FBD/2.1_Modelado_Conceptual_ER_y_Logico_Relacional.md).
+   * Magnitud, Estructura y Memoria Formal de Normalización (1FN → BCNF) en [2.2_Normalizacion_1FN_a_BCNF.pdf](./FBD/2.2_Normalizacion_1FN_a_BCNF.pdf) 
 
 ---
-
-## 📁 Estructura del Repositorio
-
-```text
-Proyecto Integrador/
-│
-├── .gitignore                                                              # Exclusión de temporales de Office (~$*) y SO
-├── Proyecto-Integrador-V-Semestre-corregido.pdf                            # Especificación general y guía oficial corregida del proyecto
-├── Rúbricas de Evaluación - Proyecto Integrador TecNM (AMSI, FBD, Redes, TLI).pdf  # Instrumento oficial por competencias
-├── README.md                                                               # Documento maestro del repositorio
-│
-├── Fundamentación/                                                         # FASE 1: Fundamentación y Delimitación
-│   ├── README.md                                                           # Memoria técnica de la Fase 1
-│   ├── Lista_100_Tablas_y_Matriz_Deslinde.xlsx                             # Matriz de deslinde de las 100 tablas
-│   └── plantilla_diccionario_datos.xlsx                                    # Plantilla estándar para el diccionario
-│
-└── AMSI/                                                                   # FASE 2: Análisis y Modelado (IFE-1005)
-    ├── README.md                                                           # Memoria técnica de la Fase 2 (Rúbrica AMSI)
-    ├── 1.1_Ingenieria_de_Requisitos.pdf                                    # Catálogo codificado de RF y RNF (18 submódulos)
-    ├── 1.1_Ingenieria_de_Requisitos.docx                                   # Versión editable de Requisitos
-    ├── 1.2 Modelado del Negocio y Casos de Uso.md                          # Diagramas UML y especificación tabular (Login)
-    ├── 1.2 Modelado del Negocio y Casos de Uso.docx                        # Versión editable de Casos de Uso
-    ├── 1.3 Modelado de Interacción y Secuencia Criptográfica.md            # Diagramas de secuencia de Login y transacciones
-    └── 1.3 Modelado de Interacción y Secuencia Criptográfica.docx          # Versión editable de Secuencias Transaccionales
-```
-
----
-
-## 📊 Parámetros Críticos de Acreditación (Rúbrica TecNM)
-
-* **Volumen de Base de Datos:** 100 tablas normalizadas con PK y FK activas (cero tablas huérfanas).
-* **Seguridad de Credenciales:** Prohibido texto claro; uso de hashing robusto (`bcrypt`/`Argon2`).
-* **Multi-SGBD:** Scripts ejecutables compatibles con **Microsoft SQL Server** y gestor libre (**PostgreSQL / MariaDB**).
-* **Infraestructura LAN:** Topología jerárquica de 3 capas, subnetting con VLSM y conmutadores con **Port Security** configurado.
-* **Marco Legal Vigente:** Cumplimiento con LFPDPPP, trámite INDAUTOR y matriz de prevención conforme al Código Penal Federal (Arts. 211 bis 1 al 7).
 
